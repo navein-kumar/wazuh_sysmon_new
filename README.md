@@ -1,2 +1,6 @@
+```
+download and run as admin
 
-.\Sysmon64.exe -accepteula -i windows_sysmon_config.xml
+install-sysmon.bat
+
+```
