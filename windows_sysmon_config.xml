@@ -480,65 +480,201 @@
 		<!--NOTE:	You may not see files detected by antivirus. Other filesystem minifilters, like antivirus, can act before Sysmon receives the alert a file was written.-->
 
 		<!--DATA: UtcTime, ProcessGuid, ProcessId, Image, TargetFilename, CreationUtcTime-->
-	<RuleGroup name="" groupRelation="or">
-		<FileCreate onmatch="include">
-			<TargetFilename name="T1023" condition="contains">\Start Menu</TargetFilename> <!--Windows: Startup links and shortcut modification [ https://attack.mitre.org/wiki/Technique/T1023 ] -->
-			<TargetFilename name="T1165" condition="contains">\Startup\</TargetFilename> <!--Microsoft:Changes to user's auto-launched files and shortcuts-->
-			<TargetFilename name="OutlookAttachment" condition="contains">\Content.Outlook\</TargetFilename> <!--Microsoft:Outlook: attachments-->
-			<TargetFilename name="Downloads" condition="contains">\Downloads\</TargetFilename> <!--Downloaded files. Does not include "Run" files in IE-->
-			<TargetFilename condition="end with">.application</TargetFilename> <!--Microsoft:ClickOnce: [ https://blog.netspi.com/all-you-need-is-one-a-clickonce-love-story/ ] -->
-			<TargetFilename condition="end with">.appref-ms</TargetFilename> <!--Microsoft:ClickOnce application | Credit @ion-storm -->
-			<TargetFilename condition="end with">.bat</TargetFilename> <!--Batch scripting-->
-			<TargetFilename condition="end with">.chm</TargetFilename>
-			<TargetFilename condition="end with">.cmd</TargetFilename> <!--Batch scripting: Batch scripts can also use the .cmd extension | Credit: @mmazanec -->
-			<TargetFilename condition="end with">.cmdline</TargetFilename> <!--Microsoft:dotNet: Executed by cvtres.exe-->
-			<TargetFilename name="T1176" condition="end with">.crx</TargetFilename> <!--Chrome extension-->
-			<TargetFilename condition="end with">.dmp</TargetFilename> <!--Process dumps [ (fr) http://blog.gentilkiwi.com/securite/mimikatz/minidump ] -->
-			<TargetFilename condition="end with">.docm</TargetFilename> <!--Microsoft:Office:Word: Macro-->
-			<TargetFilename name="DLL" condition="end with">.dll</TargetFilename> <!--Microsoft:Office:Word: Macro-->
-			<TargetFilename name="EXE" condition="end with">.exe</TargetFilename> <!--Executable-->
-			<TargetFilename name="ProcessHostingdotNETCode" condition="end with">.exe.log</TargetFilename> <!-- [ https://github.com/bitsadmin/nopowershell ] | Credit: @SBousseaden [ https://twitter.com/SBousseaden/status/1137493597769687040 ]  -->
-			<TargetFilename condition="end with">.jar</TargetFilename> <!--Java applets-->
-			<TargetFilename condition="end with">.jnlp</TargetFilename> <!--Java applets-->
-			<TargetFilename condition="end with">.jse</TargetFilename> <!--Scripting [ Example: https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/Mal~Phires-C/detailed-analysis.aspx ] -->
-			<TargetFilename condition="end with">.hta</TargetFilename> <!--Scripting-->
-			<TargetFilename condition="end with">.job</TargetFilename> <!--Scheduled task-->
-			<TargetFilename condition="end with">.pptm</TargetFilename> <!--Microsoft:Office:Word: Macro-->
-			<TargetFilename condition="end with">.ps1</TargetFilename> <!--PowerShell [ More information: http://www.hexacorn.com/blog/2014/08/27/beyond-good-ol-run-key-part-16/ ] -->
-			<TargetFilename condition="end with">.sct</TargetFilename> <!--Scripting | Credit @bartblaze -->
-			<TargetFilename condition="end with">.sys</TargetFilename> <!--System driver files-->
-			<TargetFilename condition="end with">.scr</TargetFilename> <!--System driver files-->
-			<TargetFilename condition="end with">.vbe</TargetFilename> <!--VisualBasicScripting-->
-			<TargetFilename condition="end with">.vbs</TargetFilename> <!--VisualBasicScripting-->
-			<TargetFilename condition="end with">.wsc</TargetFilename> <!--Scripting | Credit @bartblaze -->
-			<TargetFilename condition="end with">.wsf</TargetFilename> <!--Scripting | Credit @bartblaze -->
-			<TargetFilename condition="end with">.xlsm</TargetFilename> <!--Microsoft:Office:Word: Macro-->
-			<TargetFilename condition="end with">.ocx</TargetFilename> <!--Microsoft:ActiveX-->
-			<TargetFilename condition="end with">proj</TargetFilename><!--Microsoft:MSBuild:Script: [ https://twitter.com/subTee/status/885919612969394177 ] -->
-			<TargetFilename condition="end with">.sln</TargetFilename><!--Microsoft:MSBuild:Script: [ https://twitter.com/subTee/status/885919612969394177 ] -->
-			<TargetFilename condition="end with">.xls</TargetFilename><!--Microsoft [ https://medium.com/@threathuntingteam/msxsl-exe-and-wmic-exe-a-way-to-proxy-code-execution-8d524f642b75 ] -->
-			<TargetFilename name="DefaultUserModified" condition="begin with">C:\Users\Default</TargetFilename> <!--Windows: Changes to default user profile-->
-			<TargetFilename condition="begin with">C:\Windows\system32\Drivers</TargetFilename> <!--Microsoft: Drivers dropped here-->
-			<TargetFilename condition="begin with">C:\Windows\SysWOW64\Drivers</TargetFilename> <!--Microsoft: Drivers dropped here-->
-			<TargetFilename name="T1037,T1484" condition="begin with">C:\Windows\system32\GroupPolicy\Machine\Scripts</TargetFilename> <!--Group policy [ More information: http://www.hexacorn.com/blog/2017/01/07/beyond-good-ol-run-key-part-52/ ] -->
-			<TargetFilename name="T1037,T1484" condition="begin with">C:\Windows\system32\GroupPolicy\User\Scripts</TargetFilename> <!--Group policy [ More information: http://www.hexacorn.com/blog/2017/01/07/beyond-good-ol-run-key-part-52/ ] -->
-			<TargetFilename condition="begin with">C:\Windows\system32\Wbem</TargetFilename> <!--Microsoft:WMI: [ More information: http://2014.hackitoergosum.org/slides/day1_WMI_Shell_Andrei_Dumitrescu.pdf ] -->
-			<TargetFilename condition="begin with">C:\Windows\SysWOW64\Wbem</TargetFilename> <!--Microsoft:WMI: [ More information: http://2014.hackitoergosum.org/slides/day1_WMI_Shell_Andrei_Dumitrescu.pdf ] -->
-			<TargetFilename condition="begin with">C:\Windows\system32\WindowsPowerShell</TargetFilename> <!--Microsoft:Powershell: Look for modifications for persistence [ https://www.malwarearchaeology.com/cheat-sheets ] -->
-			<TargetFilename condition="begin with">C:\Windows\SysWOW64\WindowsPowerShell</TargetFilename> <!--Microsoft:Powershell: Look for modifications for persistence [ https://www.malwarearchaeology.com/cheat-sheets ] -->
-			<TargetFilename name="T1053" condition="begin with">C:\Windows\Tasks\</TargetFilename> <!--Microsoft:ScheduledTasks [ https://attack.mitre.org/wiki/Technique/T1053 ] -->
-			<TargetFilename name="T1053" condition="begin with">C:\Windows\system32\Tasks</TargetFilename> <!--Microsoft:ScheduledTasks [ https://attack.mitre.org/wiki/Technique/T1053 ] -->
-			<TargetFilename name="T1053" condition="begin with">C:\Windows\SysWOW64\Tasks</TargetFilename> <!--Microsoft:ScheduledTasks [ https://attack.mitre.org/wiki/Technique/T1053 ] -->
-			<Image condition="begin with">\Device\HarddiskVolumeShadowCopy</Image> <!--Nothing should be executing from VSC | Credit: @SBousseaden [ https://twitter.com/SBousseaden/status/1133030955407630336 ] -->
-			<!--Windows application compatibility-->
-			<TargetFilename condition="begin with">C:\Windows\AppPatch\Custom</TargetFilename> <!--Windows: Application compatibility shims [ https://www.fireeye.com/blog/threat-research/2017/05/fin7-shim-databases-persistence.html ] -->
-			<TargetFilename condition="contains">VirtualStore</TargetFilename> <!--Windows: UAC virtualization [ https://blogs.msdn.microsoft.com/oldnewthing/20150902-00/?p=91681 ] -->
-			<!--Exploitable file names-->
-			<TargetFilename condition="end with">.xls</TargetFilename> <!--Legacy Office files are often used for attacks-->
-			<TargetFilename condition="end with">.ppt</TargetFilename> <!--Legacy Office files are often used for attacks-->
-			<TargetFilename condition="end with">.rtf</TargetFilename> <!--RTF files often 0day malware vectors when opened by Office-->
-		</FileCreate>
-	</RuleGroup>
+<RuleGroup name="" groupRelation="or">
+	<FileCreate onmatch="include">
+		<!-- ========== PERSISTENCE LOCATIONS ========== -->
+		<TargetFilename name="T1023" condition="contains">\Start Menu</TargetFilename>
+		<TargetFilename name="T1165" condition="contains">\Startup\</TargetFilename>
+		<TargetFilename name="DefaultUserModified" condition="begin with">C:\Users\Default</TargetFilename>
+		
+		<!-- ========== DOWNLOAD/ATTACHMENT LOCATIONS ========== -->
+		<TargetFilename name="OutlookAttachment" condition="contains">\Content.Outlook\</TargetFilename>
+		<TargetFilename name="Downloads" condition="contains">\Downloads\</TargetFilename>
+		<TargetFilename name="Desktop" condition="contains">\Desktop\</TargetFilename>
+		<TargetFilename name="Temp" condition="contains">\AppData\Local\Temp\</TargetFilename>
+		
+		<!-- ========== DANGEROUS EXTENSIONS ========== -->
+		<!-- Executables -->
+		<TargetFilename name="EXE" condition="end with">.exe</TargetFilename>
+		<TargetFilename name="DLL" condition="end with">.dll</TargetFilename>
+		<TargetFilename condition="end with">.sys</TargetFilename>
+		<TargetFilename condition="end with">.scr</TargetFilename>
+		<TargetFilename condition="end with">.ocx</TargetFilename>
+		<TargetFilename condition="end with">.jar</TargetFilename>
+		<TargetFilename condition="end with">.jnlp</TargetFilename>
+		
+		<!-- Scripts -->
+		<TargetFilename condition="end with">.bat</TargetFilename>
+		<TargetFilename condition="end with">.cmd</TargetFilename>
+		<TargetFilename condition="end with">.ps1</TargetFilename>
+		<TargetFilename condition="end with">.vbs</TargetFilename>
+		<TargetFilename condition="end with">.vbe</TargetFilename>
+		<TargetFilename condition="end with">.js</TargetFilename>
+		<TargetFilename condition="end with">.jse</TargetFilename>
+		<TargetFilename condition="end with">.wsf</TargetFilename>
+		<TargetFilename condition="end with">.wsc</TargetFilename>
+		<TargetFilename condition="end with">.sct</TargetFilename>
+		<TargetFilename condition="end with">.hta</TargetFilename>
+		
+		<!-- Office Macros -->
+		<TargetFilename condition="end with">.docm</TargetFilename>
+		<TargetFilename condition="end with">.xlsm</TargetFilename>
+		<TargetFilename condition="end with">.pptm</TargetFilename>
+		<TargetFilename condition="end with">.dotm</TargetFilename>
+		
+		<!-- Legacy Office (exploit vectors) -->
+		<TargetFilename condition="end with">.doc</TargetFilename>
+		<TargetFilename condition="end with">.xls</TargetFilename>
+		<TargetFilename condition="end with">.ppt</TargetFilename>
+		<TargetFilename condition="end with">.rtf</TargetFilename>
+		
+		<!-- Archives (may contain malware) -->
+		<TargetFilename condition="end with">.zip</TargetFilename>
+		<TargetFilename condition="end with">.rar</TargetFilename>
+		<TargetFilename condition="end with">.7z</TargetFilename>
+		<TargetFilename condition="end with">.iso</TargetFilename>
+		<TargetFilename condition="end with">.img</TargetFilename>
+		<TargetFilename condition="end with">.vhd</TargetFilename>
+		<TargetFilename condition="end with">.vhdx</TargetFilename>
+		
+		<!-- Shortcuts/Links -->
+		<TargetFilename condition="end with">.lnk</TargetFilename>
+		<TargetFilename condition="end with">.url</TargetFilename>
+		
+		<!-- ClickOnce -->
+		<TargetFilename condition="end with">.application</TargetFilename>
+		<TargetFilename condition="end with">.appref-ms</TargetFilename>
+		
+		<!-- MSBuild -->
+		<TargetFilename condition="end with">.csproj</TargetFilename>
+		<TargetFilename condition="end with">.vbproj</TargetFilename>
+		<TargetFilename condition="end with">.sln</TargetFilename>
+		<TargetFilename condition="end with">.cmdline</TargetFilename>
+		
+		<!-- Browser Extensions -->
+		<TargetFilename name="T1176" condition="end with">.crx</TargetFilename>
+		<TargetFilename condition="end with">.xpi</TargetFilename>
+		
+		<!-- Other -->
+		<TargetFilename condition="end with">.chm</TargetFilename>
+		<TargetFilename condition="end with">.job</TargetFilename>
+		<TargetFilename condition="end with">.dmp</TargetFilename>
+		<TargetFilename condition="end with">.exe.log</TargetFilename>
+		<TargetFilename condition="end with">.msi</TargetFilename>
+		<TargetFilename condition="end with">.msp</TargetFilename>
+		<TargetFilename condition="end with">.cab</TargetFilename>
+		
+		<!-- ========== CRITICAL SYSTEM LOCATIONS ========== -->
+		<TargetFilename condition="begin with">C:\Windows\system32\Drivers</TargetFilename>
+		<TargetFilename condition="begin with">C:\Windows\SysWOW64\Drivers</TargetFilename>
+		<TargetFilename name="T1037,T1484" condition="begin with">C:\Windows\system32\GroupPolicy\Machine\Scripts</TargetFilename>
+		<TargetFilename name="T1037,T1484" condition="begin with">C:\Windows\system32\GroupPolicy\User\Scripts</TargetFilename>
+		<TargetFilename condition="begin with">C:\Windows\system32\Wbem</TargetFilename>
+		<TargetFilename condition="begin with">C:\Windows\SysWOW64\Wbem</TargetFilename>
+		<TargetFilename condition="begin with">C:\Windows\system32\WindowsPowerShell</TargetFilename>
+		<TargetFilename condition="begin with">C:\Windows\SysWOW64\WindowsPowerShell</TargetFilename>
+		<TargetFilename name="T1053" condition="begin with">C:\Windows\Tasks\</TargetFilename>
+		<TargetFilename name="T1053" condition="begin with">C:\Windows\system32\Tasks</TargetFilename>
+		<TargetFilename condition="begin with">C:\Windows\AppPatch\Custom</TargetFilename>
+		<TargetFilename condition="contains">VirtualStore</TargetFilename>
+		<Image condition="begin with">\Device\HarddiskVolumeShadowCopy</Image>
+	</FileCreate>
+</RuleGroup>
+
+<RuleGroup name="" groupRelation="or">
+	<FileCreate onmatch="include">
+		<!-- ========== DOWNLOAD LOCATIONS - ALL FILES ========== -->
+		<TargetFilename name="Downloads" condition="contains">\Downloads\</TargetFilename>
+		<TargetFilename name="Desktop" condition="contains">\Desktop\</TargetFilename>
+		<TargetFilename name="OutlookAttachment" condition="contains">\Content.Outlook\</TargetFilename>
+		
+		<!-- ========== PERSISTENCE LOCATIONS ========== -->
+		<TargetFilename name="T1023" condition="contains">\Start Menu</TargetFilename>
+		<TargetFilename name="T1165" condition="contains">\Startup\</TargetFilename>
+		<TargetFilename name="DefaultUserModified" condition="begin with">C:\Users\Default</TargetFilename>
+		
+		<!-- ========== SYSTEM LOCATIONS ========== -->
+		<TargetFilename condition="begin with">C:\Windows\system32\Drivers</TargetFilename>
+		<TargetFilename condition="begin with">C:\Windows\SysWOW64\Drivers</TargetFilename>
+		<TargetFilename name="T1037,T1484" condition="begin with">C:\Windows\system32\GroupPolicy\Machine\Scripts</TargetFilename>
+		<TargetFilename name="T1037,T1484" condition="begin with">C:\Windows\system32\GroupPolicy\User\Scripts</TargetFilename>
+		<TargetFilename condition="begin with">C:\Windows\system32\Wbem</TargetFilename>
+		<TargetFilename condition="begin with">C:\Windows\SysWOW64\Wbem</TargetFilename>
+		<TargetFilename condition="begin with">C:\Windows\system32\WindowsPowerShell</TargetFilename>
+		<TargetFilename condition="begin with">C:\Windows\SysWOW64\WindowsPowerShell</TargetFilename>
+		<TargetFilename name="T1053" condition="begin with">C:\Windows\Tasks\</TargetFilename>
+		<TargetFilename name="T1053" condition="begin with">C:\Windows\system32\Tasks</TargetFilename>
+		<TargetFilename condition="begin with">C:\Windows\AppPatch\Custom</TargetFilename>
+		<TargetFilename condition="contains">VirtualStore</TargetFilename>
+		<Image condition="begin with">\Device\HarddiskVolumeShadowCopy</Image>
+	</FileCreate>
+</RuleGroup>
+
+<RuleGroup name="" groupRelation="or">
+	<FileCreate onmatch="exclude">
+		<!-- ========== GENERAL TEMP ========== -->
+		<TargetFilename condition="end with">.tmp</TargetFilename>
+		<TargetFilename condition="end with">.temp</TargetFilename>
+		<TargetFilename condition="end with">.bak</TargetFilename>
+		<TargetFilename condition="end with">.old</TargetFilename>
+		<TargetFilename condition="end with">.chk</TargetFilename>
+		<TargetFilename condition="end with">~</TargetFilename>
+		
+		<!-- ========== BROWSER DOWNLOAD TEMP ========== -->
+		<TargetFilename condition="end with">.crdownload</TargetFilename>
+		<TargetFilename condition="end with">.partial</TargetFilename>
+		<TargetFilename condition="end with">.part</TargetFilename>
+		<TargetFilename condition="end with">.downloading</TargetFilename>
+		<TargetFilename condition="end with">.download</TargetFilename>
+		<TargetFilename condition="end with">.opdownload</TargetFilename>
+		
+		<!-- ========== OFFICE TEMP ========== -->
+		<TargetFilename condition="begin with">~$</TargetFilename>
+		<TargetFilename condition="end with">.wbk</TargetFilename>
+		<TargetFilename condition="end with">.xlk</TargetFilename>
+		
+		<!-- ========== SYSTEM/LOG ========== -->
+		<TargetFilename condition="end with">.log</TargetFilename>
+		<TargetFilename condition="end with">.etl</TargetFilename>
+		<TargetFilename condition="end with">.dmp</TargetFilename>
+		<TargetFilename condition="end with">.cache</TargetFilename>
+		<TargetFilename condition="end with">.Identifier</TargetFilename>
+		
+		<!-- ========== LOCK FILES ========== -->
+		<TargetFilename condition="end with">.lock</TargetFilename>
+		<TargetFilename condition="end with">.lck</TargetFilename>
+		<TargetFilename condition="end with">.pid</TargetFilename>
+		
+		<!-- ========== SWAP FILES ========== -->
+		<TargetFilename condition="end with">.swp</TargetFilename>
+		<TargetFilename condition="end with">.swo</TargetFilename>
+		
+		<!-- ========== INSTALLER TEMP ========== -->
+		<TargetFilename condition="end with">.mst</TargetFilename>
+		<TargetFilename condition="end with">.msp</TargetFilename>
+		
+		<!-- ========== SQLITE TEMP ========== -->
+		<TargetFilename condition="end with">-journal</TargetFilename>
+		<TargetFilename condition="end with">-shm</TargetFilename>
+		<TargetFilename condition="end with">-wal</TargetFilename>
+		
+		<!-- ========== TEMP PATHS ========== -->
+		<TargetFilename condition="contains">\Temp\</TargetFilename>
+		<TargetFilename condition="contains">\Cache\</TargetFilename>
+		<TargetFilename condition="contains">\AppData\Local\Google\Chrome\</TargetFilename>
+		<TargetFilename condition="contains">\AppData\Local\Microsoft\Edge\</TargetFilename>
+		<TargetFilename condition="contains">\AppData\Roaming\Mozilla\Firefox\Profiles\</TargetFilename>
+		<TargetFilename condition="contains">\AppData\Local\BraveSoftware\</TargetFilename>
+	</FileCreate>
+</RuleGroup>
+
+
+
+<RuleGroup name="" groupRelation="or">
+	<FileCreate onmatch="exclude">
+		<!-- Empty - monitoring everything included above -->
+	</FileCreate>
+</RuleGroup>
 
 	<RuleGroup name="" groupRelation="or">
 		<FileCreate onmatch="exclude">
