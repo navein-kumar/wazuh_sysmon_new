@@ -1,793 +1,797 @@
 <Sysmon schemaversion="4.50">
-	<!--SYSMON META CONFIG-->
-	<HashAlgorithms>md5,sha256,IMPHASH</HashAlgorithms>
-	<CheckRevocation/>
-	
-	<!--DLP: CLIPBOARD MONITORING - Added for DLP detection-->
-	<CaptureClipboard/>
-	<ArchiveDirectory>C:\Sysmon\Archive</ArchiveDirectory>
+    <!--SYSMON META CONFIG-->
+    <HashAlgorithms>md5,sha256,IMPHASH</HashAlgorithms>
+    <CheckRevocation/>
+    
+    <!--DLP: CLIPBOARD MONITORING - Added for DLP detection-->
+    <CaptureClipboard/>
+    <ArchiveDirectory>C:\Sysmon\Archive</ArchiveDirectory>
 
-	<EventFiltering>
+    <EventFiltering>
 
-	<!--SYSMON EVENT ID 1 : PROCESS CREATION [ProcessCreate]-->
-	<RuleGroup name="" groupRelation="or">
-		<ProcessCreate onmatch="exclude">
-			<!--SECTION: Microsoft Windows-->
-			<CommandLine condition="begin with"> "C:\Windows\system32\wermgr.exe" "-queuereporting_svc" </CommandLine>
-			<CommandLine condition="begin with">C:\Windows\system32\DllHost.exe /Processid</CommandLine>
-			<CommandLine condition="begin with">C:\Windows\system32\wbem\wmiprvse.exe -Embedding</CommandLine>
-			<CommandLine condition="begin with">C:\Windows\system32\wbem\wmiprvse.exe -secured -Embedding</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\wermgr.exe -upload</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\SearchIndexer.exe /Embedding</CommandLine>
-			<CommandLine condition="is">C:\windows\system32\wermgr.exe -queuereporting</CommandLine>
-			<CommandLine condition="is">\??\C:\Windows\system32\autochk.exe *</CommandLine>
-			<CommandLine condition="is">\SystemRoot\System32\smss.exe</CommandLine>
-			<CommandLine condition="is">C:\Windows\System32\RuntimeBroker.exe -Embedding</CommandLine>
-			<Image condition="is">C:\Program Files (x86)\Common Files\microsoft shared\ink\TabTip32.exe</Image>
-			<Image condition="is">C:\Windows\System32\TokenBrokerCookies.exe</Image>
-			<Image condition="is">C:\Windows\System32\plasrv.exe</Image>
-			<Image condition="is">C:\Windows\System32\wifitask.exe</Image>
-			<Image condition="is">C:\Windows\system32\CompatTelRunner.exe</Image>
-			<Image condition="is">C:\Windows\system32\PrintIsolationHost.exe</Image>
-			<Image condition="is">C:\Windows\system32\SppExtComObj.Exe</Image>
-			<Image condition="is">C:\Windows\system32\audiodg.exe</Image>
-			<Image condition="is">C:\Windows\system32\conhost.exe</Image>
-			<Image condition="is">C:\Windows\system32\mobsync.exe</Image>
-			<Image condition="is">C:\Windows\system32\musNotification.exe</Image>
-			<Image condition="is">C:\Windows\system32\musNotificationUx.exe</Image>
-			<Image condition="is">C:\Windows\system32\powercfg.exe</Image>
-			<Image condition="is">C:\Windows\system32\sndVol.exe</Image>
-			<Image condition="is">C:\Windows\system32\sppsvc.exe</Image>
-			<Image condition="is">C:\Windows\system32\wbem\WmiApSrv.exe</Image>
-			<IntegrityLevel condition="is">AppContainer</IntegrityLevel>
-			<ParentCommandLine condition="begin with">%%SystemRoot%%\system32\csrss.exe ObjectDirectory=\Windows</ParentCommandLine>
-			<ParentCommandLine condition="is">C:\windows\system32\wermgr.exe -queuereporting</ParentCommandLine>
-			<CommandLine condition="is">C:\WINDOWS\system32\devicecensus.exe UserCxt</CommandLine>
-			<CommandLine condition="is">C:\Windows\System32\usocoreworker.exe -Embedding</CommandLine>
-			<ParentImage condition="is">C:\Windows\system32\SearchIndexer.exe</ParentImage>
-			<!--SECTION: Windows:svchost-->
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k appmodel -s StateRepository</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k appmodel -p -s camsvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k appmodel</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k appmodel -p -s tiledatamodelsvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k camera -s FrameServer</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k dcomlaunch -s LSM</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k dcomlaunch -s PlugPlay</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k defragsvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k devicesflow -s DevicesFlowUserSvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k imgsvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localService -s EventSystem</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localService -s bthserv</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k LocalService -p -s BthAvctpSvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localService -s nsi</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localService -s w32Time</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceAndNoImpersonation</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceAndNoImpersonation -p</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceNetworkRestricted -s Dhcp</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceNetworkRestricted -s EventLog</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceNetworkRestricted -s TimeBrokerSvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceNetworkRestricted -s WFDSConMgrSvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k LocalServiceNetworkRestricted -s BTAGService</CommandLine>
-			<CommandLine condition="is">C:\Windows\System32\svchost.exe -k LocalSystemNetworkRestricted -p -s NcbService</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceNetworkRestricted</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceAndNoImpersonation -s SensrSvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceAndNoImpersonation -p -s SSDPSRV</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceNoNetwork</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -p -s WPDBusEnum</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -p -s fhsvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -s DeviceAssociationService</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -s NcbService</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -s SensorService</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -s TabletInputService</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -s UmRdpService</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -s WPDBusEnum</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -p -s NgcSvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceNetworkRestricted -p -s NgcCtnrSvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceAndNoImpersonation -s SCardSvr</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -p -s wuauserv</CommandLine>
-			<CommandLine condition="is">C:\Windows\System32\svchost.exe -k netsvcs -p -s SessionEnv</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -s WdiSystemHost</CommandLine>
-			<CommandLine condition="is">C:\Windows\System32\svchost.exe -k localSystemNetworkRestricted -p -s WdiSystemHost</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -p -s wlidsvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -p -s ncaSvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s BDESVC</CommandLine>
-			<CommandLine condition="is">C:\Windows\System32\svchost.exe -k netsvcs -p -s BDESVC</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -p -s BITS</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s BITS</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s CertPropSvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s DsmSvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -p -s Appinfo</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s Gpsvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s ProfSvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s SENS</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s SessionEnv</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s Themes</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s Winmgmt</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k networkService -p -s DoSvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k networkService -s Dnscache</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k networkService -s LanmanWorkstation</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k networkService -s NlaSvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k networkService -s TermService</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k networkService</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k networkService -p</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k networkServiceNetworkRestricted</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k rPCSS</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k secsvcs</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k swprv</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k unistackSvcGroup</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k utcsvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k wbioSvcGroup</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k werSvcGroup</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k wusvcs -p -s WaaSMedicSvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\System32\svchost.exe -k wsappx -p -s ClipSVC</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k wsappx -p -s AppXSvc</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k wsappx -s ClipSVC</CommandLine>
-			<CommandLine condition="is">C:\Windows\system32\svchost.exe -k wsappx</CommandLine>
-			<ParentCommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs</ParentCommandLine>
-			<ParentCommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted</ParentCommandLine>
-			<CommandLine condition="is">C:\Windows\system32\deviceenroller.exe /c /AutoEnrollMDM</CommandLine>
-			<!--SECTION: Microsoft:Edge-->
-			<CommandLine condition="begin with">"C:\Program Files (x86)\Microsoft\Edge Dev\Application\msedge.exe" --type=</CommandLine>
-			<!--SECTION: Microsoft:dotNet-->
-			<CommandLine condition="begin with">C:\Windows\Microsoft.NET\Framework\v4.0.30319\ngen.exe</CommandLine>
-			<CommandLine condition="begin with">C:\WINDOWS\Microsoft.NET\Framework64\v4.0.30319\Ngen.exe</CommandLine>
-			<CommandLine condition="begin with">C:\Windows\Microsoft.NET\Framework\v4.0.30319\ngentask.exe</CommandLine>
-			<CommandLine condition="begin with">C:\WINDOWS\Microsoft.NET\Framework64\v4.0.30319\ngentask.exe</CommandLine>
-			<Image condition="is">C:\Windows\Microsoft.NET\Framework64\v4.0.30319\mscorsvw.exe</Image>
-			<Image condition="is">C:\Windows\Microsoft.NET\Framework\v4.0.30319\mscorsvw.exe</Image>
-			<Image condition="is">C:\Windows\Microsoft.Net\Framework64\v3.0\WPF\PresentationFontCache.exe</Image>
-			<ParentCommandLine condition="begin with">C:\Windows\Microsoft.NET\Framework64\v4.0.30319\ngentask.exe</ParentCommandLine>
-			<ParentImage condition="is">C:\Windows\Microsoft.NET\Framework64\v4.0.30319\mscorsvw.exe</ParentImage>
-			<ParentImage condition="is">C:\Windows\Microsoft.NET\Framework64\v4.0.30319\ngentask.exe</ParentImage>
-			<ParentImage condition="is">C:\Windows\Microsoft.NET\Framework\v4.0.30319\mscorsvw.exe</ParentImage>
-			<ParentImage condition="is">C:\Windows\Microsoft.NET\Framework\v4.0.30319\ngentask.exe</ParentImage>
-			<!--SECTION: Microsoft:Office-->
-			<Image condition="is">C:\Program Files\Microsoft Office\Office16\MSOSYNC.EXE</Image>
-			<Image condition="is">C:\Program Files (x86)\Microsoft Office\Office16\MSOSYNC.EXE</Image>
-			<Image condition="is">C:\Program Files\Common Files\Microsoft Shared\OfficeSoftwareProtectionPlatform\OSPPSVC.EXE</Image>
-			<Image condition="is">C:\Program Files\Microsoft Office\Office16\msoia.exe</Image>
-			<Image condition="is">C:\Program Files (x86)\Microsoft Office\root\Office16\officebackgroundtaskhandler.exe</Image>
-			<!--SECTION: Microsoft:Office:Click2Run-->
-			<Image condition="is">C:\Program Files\Common Files\Microsoft Shared\ClickToRun\OfficeC2RClient.exe</Image>
-			<ParentImage condition="is">C:\Program Files\Common Files\Microsoft Shared\ClickToRun\OfficeClickToRun.exe</ParentImage>
-			<ParentImage condition="is">C:\Program Files\Common Files\Microsoft Shared\ClickToRun\OfficeC2RClient.exe</ParentImage>
-			<!--SECTION: Windows: Media player-->
-			<Image condition="is">C:\Program Files\Windows Media Player\wmpnscfg.exe</Image>
-			<!--SECTION: Google-->
-			<CommandLine condition="begin with">"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --type=</CommandLine>
-			<CommandLine condition="begin with">"C:\Program Files\Google\Chrome\Application\chrome.exe" --type=</CommandLine>
-		</ProcessCreate>
-	</RuleGroup>
-
-
-	<!--SYSMON EVENT ID 3 : NETWORK CONNECTION INITIATED [NetworkConnect]-->
-	<RuleGroup name="" groupRelation="or">
-		<NetworkConnect onmatch="include">
-			<!--Suspicious sources for network-connecting binaries-->
-			<Image name="Usermode" condition="begin with">C:\Users</Image>
-			<Image name="Caution" condition="begin with">C:\Recycle</Image>
-			<Image condition="begin with">C:\ProgramData</Image>
-			<Image condition="begin with">C:\Windows\Temp</Image>
-			<Image name="Caution" condition="begin with">\</Image>
-			<Image name="Caution" condition="begin with">C:\perflogs</Image>
-			<Image name="Caution" condition="begin with">C:\intel</Image>
-			<Image name="Caution" condition="begin with">C:\Windows\fonts</Image>
-			<Image name="Caution" condition="begin with">C:\Windows\system32\config</Image>
-			<!--Suspicious Windows tools-->
-			<Image condition="image">at.exe</Image>
-			<Image condition="image">certutil.exe</Image>
-			<Image condition="image">cmd.exe</Image>
-			<Image condition="image">cmstp.exe</Image>
-			<Image condition="image">cscript.exe</Image>
-			<Image condition="image">driverquery.exe</Image>
-			<Image condition="image">dsquery.exe</Image>
-			<Image condition="image">hh.exe</Image>
-			<Image condition="image">infDefaultInstall.exe</Image>
-			<Image condition="image">java.exe</Image>
-			<Image condition="image">javaw.exe</Image>
-			<Image condition="image">javaws.exe</Image>
-			<Image condition="image">mmc.exe</Image>
-			<Image condition="image">msbuild.exe</Image>
-			<Image condition="image">mshta.exe</Image>
-			<Image condition="image">msiexec.exe</Image>
-			<Image condition="image">nbtstat.exe</Image>
-			<Image condition="image">net.exe</Image>
-			<Image condition="image">net1.exe</Image>
-			<Image condition="image">notepad.exe</Image>
-			<Image condition="image">nslookup.exe</Image>
-			<Image condition="image">powershell.exe</Image>
-			<Image condition="image">powershell_ise.exe</Image>
-			<Image condition="image">qprocess.exe</Image>
-			<Image condition="image">qwinsta.exe</Image>
-			<Image condition="image">qwinsta.exe</Image>
-			<Image condition="image">reg.exe</Image>
-			<Image condition="image">regsvcs.exe</Image>
-			<Image condition="image">regsvr32.exe</Image>
-			<Image condition="image">rundll32.exe</Image>
-			<Image condition="image">rwinsta.exe</Image>
-			<Image condition="image">sc.exe</Image>
-			<Image condition="image">schtasks.exe</Image>
-			<Image condition="image">taskkill.exe</Image>
-			<Image condition="image">tasklist.exe</Image>
-			<Image condition="image">wmic.exe</Image>
-			<Image condition="image">wscript.exe</Image>
-			<!--Live of the Land Binaries and scripts (LOLBAS) -->
-			<Image condition="image">bitsadmin.exe</Image>
-			<Image condition="image">esentutl.exe</Image>
-			<Image condition="image">expand.exe</Image>
-			<Image condition="image">extrac32.exe</Image>
-			<Image condition="image">findstr.exe</Image>
-			<Image condition="image">GfxDownloadWrapper.exe</Image>
-			<Image condition="image">ieexec.exe</Image>
-			<Image condition="image">makecab.exe</Image>
-			<Image condition="image">replace.exe</Image>
-			<Image condition="image">Excel.exe</Image>
-			<Image condition="image">Powerpnt.exe</Image>
-			<Image condition="image">Winword.exe</Image>
-			<Image condition="image">squirrel.exe</Image>
-			<!--Relevant 3rd Party Tools-->
-			<Image condition="image">nc.exe</Image>
-			<Image condition="image">ncat.exe</Image>
-			<Image condition="image">psexec.exe</Image>
-			<Image condition="image">psexesvc.exe</Image>
-			<Image condition="image">tor.exe</Image>
-			<Image condition="image">vnc.exe</Image>
-			<Image condition="image">vncservice.exe</Image>
-			<Image condition="image">vncviewer.exe</Image>
-			<Image condition="image">winexesvc.exe</Image>
-			<Image condition="image">nmap.exe</Image>
-			<Image condition="image">psinfo.exe</Image>
-			<!--Ports: Suspicious-->
-			<DestinationPort name="SSH" condition="is">22</DestinationPort>
-			<DestinationPort name="Telnet" condition="is">23</DestinationPort>
-			<DestinationPort name="SMTP" condition="is">25</DestinationPort>
-			<DestinationPort name="IMAP" condition="is">143</DestinationPort>
-			<DestinationPort name="RDP" condition="is">3389</DestinationPort>
-			<DestinationPort name="VNC" condition="is">5800</DestinationPort>
-			<DestinationPort name="VNC" condition="is">5900</DestinationPort>
-			<DestinationPort name="Alert,Metasploit" condition="is">4444</DestinationPort>
-			<!--Ports: Proxy-->
-			<DestinationPort name="Proxy" condition="is">1080</DestinationPort>
-			<DestinationPort name="Proxy" condition="is">3128</DestinationPort>
-			<DestinationPort name="Proxy" condition="is">8080</DestinationPort>
-			<!--Ports: Tor-->
-			<DestinationPort name="Tor" condition="is">1723</DestinationPort>
-			<DestinationPort name="Tor" condition="is">9001</DestinationPort>
-			<DestinationPort name="Tor" condition="is">9030</DestinationPort>
-		</NetworkConnect>
-	</RuleGroup>
-
-	<RuleGroup name="" groupRelation="or">
-		<NetworkConnect onmatch="exclude">
-			<!--SECTION: Microsoft-->
-			<Image condition="begin with">C:\ProgramData\Microsoft\Windows Defender\Platform\</Image>
-			<Image condition="end with">AppData\Local\Microsoft\Teams\current\Teams.exe</Image>
-			<DestinationHostname condition="end with">.microsoft.com</DestinationHostname>
-			<DestinationHostname condition="end with">microsoft.com.akadns.net</DestinationHostname>
-			<DestinationHostname condition="end with">microsoft.com.nsatc.net</DestinationHostname>
-			<!--OCSP known addresses-->
-			<DestinationIp condition="is">23.4.43.27</DestinationIp>
-			<DestinationIp condition="is">72.21.91.29</DestinationIp>
-			<!--Section: Loopback Addresses-->
-			<DestinationIp condition="is">127.0.0.1</DestinationIp>
-			<DestinationIp condition="begin with">fe80:0:0:0</DestinationIp>
-		</NetworkConnect>
-	</RuleGroup>
+    <!--SYSMON EVENT ID 1 : PROCESS CREATION [ProcessCreate]-->
+    <RuleGroup name="" groupRelation="or">
+        <ProcessCreate onmatch="exclude">
+            <!--SECTION: Microsoft Windows-->
+            <CommandLine condition="begin with"> "C:\Windows\system32\wermgr.exe" "-queuereporting_svc" </CommandLine>
+            <CommandLine condition="begin with">C:\Windows\system32\DllHost.exe /Processid</CommandLine>
+            <CommandLine condition="begin with">C:\Windows\system32\wbem\wmiprvse.exe -Embedding</CommandLine>
+            <CommandLine condition="begin with">C:\Windows\system32\wbem\wmiprvse.exe -secured -Embedding</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\wermgr.exe -upload</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\SearchIndexer.exe /Embedding</CommandLine>
+            <CommandLine condition="is">C:\windows\system32\wermgr.exe -queuereporting</CommandLine>
+            <CommandLine condition="is">\??\C:\Windows\system32\autochk.exe *</CommandLine>
+            <CommandLine condition="is">\SystemRoot\System32\smss.exe</CommandLine>
+            <CommandLine condition="is">C:\Windows\System32\RuntimeBroker.exe -Embedding</CommandLine>
+            <Image condition="is">C:\Program Files (x86)\Common Files\microsoft shared\ink\TabTip32.exe</Image>
+            <Image condition="is">C:\Windows\System32\TokenBrokerCookies.exe</Image>
+            <Image condition="is">C:\Windows\System32\plasrv.exe</Image>
+            <Image condition="is">C:\Windows\System32\wifitask.exe</Image>
+            <Image condition="is">C:\Windows\system32\CompatTelRunner.exe</Image>
+            <Image condition="is">C:\Windows\system32\PrintIsolationHost.exe</Image>
+            <Image condition="is">C:\Windows\system32\SppExtComObj.Exe</Image>
+            <Image condition="is">C:\Windows\system32\audiodg.exe</Image>
+            <Image condition="is">C:\Windows\system32\conhost.exe</Image>
+            <Image condition="is">C:\Windows\system32\mobsync.exe</Image>
+            <Image condition="is">C:\Windows\system32\musNotification.exe</Image>
+            <Image condition="is">C:\Windows\system32\musNotificationUx.exe</Image>
+            <Image condition="is">C:\Windows\system32\powercfg.exe</Image>
+            <Image condition="is">C:\Windows\system32\sndVol.exe</Image>
+            <Image condition="is">C:\Windows\system32\sppsvc.exe</Image>
+            <Image condition="is">C:\Windows\system32\wbem\WmiApSrv.exe</Image>
+            <IntegrityLevel condition="is">AppContainer</IntegrityLevel>
+            <ParentCommandLine condition="begin with">%%SystemRoot%%\system32\csrss.exe ObjectDirectory=\Windows</ParentCommandLine>
+            <ParentCommandLine condition="is">C:\windows\system32\wermgr.exe -queuereporting</ParentCommandLine>
+            <CommandLine condition="is">C:\WINDOWS\system32\devicecensus.exe UserCxt</CommandLine>
+            <CommandLine condition="is">C:\Windows\System32\usocoreworker.exe -Embedding</CommandLine>
+            <ParentImage condition="is">C:\Windows\system32\SearchIndexer.exe</ParentImage>
+            <!--SECTION: Windows:svchost-->
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k appmodel -s StateRepository</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k appmodel -p -s camsvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k appmodel</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k appmodel -p -s tiledatamodelsvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k camera -s FrameServer</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k dcomlaunch -s LSM</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k dcomlaunch -s PlugPlay</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k defragsvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k devicesflow -s DevicesFlowUserSvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k imgsvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localService -s EventSystem</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localService -s bthserv</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k LocalService -p -s BthAvctpSvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localService -s nsi</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localService -s w32Time</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceAndNoImpersonation</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceAndNoImpersonation -p</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceNetworkRestricted -s Dhcp</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceNetworkRestricted -s EventLog</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceNetworkRestricted -s TimeBrokerSvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceNetworkRestricted -s WFDSConMgrSvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k LocalServiceNetworkRestricted -s BTAGService</CommandLine>
+            <CommandLine condition="is">C:\Windows\System32\svchost.exe -k LocalSystemNetworkRestricted -p -s NcbService</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceNetworkRestricted</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceAndNoImpersonation -s SensrSvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceAndNoImpersonation -p -s SSDPSRV</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceNoNetwork</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -p -s WPDBusEnum</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -p -s fhsvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -s DeviceAssociationService</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -s NcbService</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -s SensorService</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -s TabletInputService</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -s UmRdpService</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -s WPDBusEnum</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -p -s NgcSvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceNetworkRestricted -p -s NgcCtnrSvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localServiceAndNoImpersonation -s SCardSvr</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -p -s wuauserv</CommandLine>
+            <CommandLine condition="is">C:\Windows\System32\svchost.exe -k netsvcs -p -s SessionEnv</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -s WdiSystemHost</CommandLine>
+            <CommandLine condition="is">C:\Windows\System32\svchost.exe -k localSystemNetworkRestricted -p -s WdiSystemHost</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -p -s wlidsvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -p -s ncaSvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s BDESVC</CommandLine>
+            <CommandLine condition="is">C:\Windows\System32\svchost.exe -k netsvcs -p -s BDESVC</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -p -s BITS</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s BITS</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s CertPropSvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s DsmSvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -p -s Appinfo</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s Gpsvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s ProfSvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s SENS</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s SessionEnv</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s Themes</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs -s Winmgmt</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k networkService -p -s DoSvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k networkService -s Dnscache</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k networkService -s LanmanWorkstation</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k networkService -s NlaSvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k networkService -s TermService</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k networkService</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k networkService -p</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k networkServiceNetworkRestricted</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k rPCSS</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k secsvcs</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k swprv</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k unistackSvcGroup</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k utcsvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k wbioSvcGroup</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k werSvcGroup</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k wusvcs -p -s WaaSMedicSvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\System32\svchost.exe -k wsappx -p -s ClipSVC</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k wsappx -p -s AppXSvc</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k wsappx -s ClipSVC</CommandLine>
+            <CommandLine condition="is">C:\Windows\system32\svchost.exe -k wsappx</CommandLine>
+            <ParentCommandLine condition="is">C:\Windows\system32\svchost.exe -k netsvcs</ParentCommandLine>
+            <ParentCommandLine condition="is">C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted</ParentCommandLine>
+            <CommandLine condition="is">C:\Windows\system32\deviceenroller.exe /c /AutoEnrollMDM</CommandLine>
+            <!--SECTION: Microsoft:Edge-->
+            <CommandLine condition="begin with">"C:\Program Files (x86)\Microsoft\Edge Dev\Application\msedge.exe" --type=</CommandLine>
+            <!--SECTION: Microsoft:dotNet-->
+            <CommandLine condition="begin with">C:\Windows\Microsoft.NET\Framework\v4.0.30319\ngen.exe</CommandLine>
+            <CommandLine condition="begin with">C:\WINDOWS\Microsoft.NET\Framework64\v4.0.30319\Ngen.exe</CommandLine>
+            <CommandLine condition="begin with">C:\Windows\Microsoft.NET\Framework\v4.0.30319\ngentask.exe</CommandLine>
+            <CommandLine condition="begin with">C:\WINDOWS\Microsoft.NET\Framework64\v4.0.30319\ngentask.exe</CommandLine>
+            <Image condition="is">C:\Windows\Microsoft.NET\Framework64\v4.0.30319\mscorsvw.exe</Image>
+            <Image condition="is">C:\Windows\Microsoft.NET\Framework\v4.0.30319\mscorsvw.exe</Image>
+            <Image condition="is">C:\Windows\Microsoft.Net\Framework64\v3.0\WPF\PresentationFontCache.exe</Image>
+            <ParentCommandLine condition="begin with">C:\Windows\Microsoft.NET\Framework64\v4.0.30319\ngentask.exe</ParentCommandLine>
+            <ParentImage condition="is">C:\Windows\Microsoft.NET\Framework64\v4.0.30319\mscorsvw.exe</ParentImage>
+            <ParentImage condition="is">C:\Windows\Microsoft.NET\Framework64\v4.0.30319\ngentask.exe</ParentImage>
+            <ParentImage condition="is">C:\Windows\Microsoft.NET\Framework\v4.0.30319\mscorsvw.exe</ParentImage>
+            <ParentImage condition="is">C:\Windows\Microsoft.NET\Framework\v4.0.30319\ngentask.exe</ParentImage>
+            <!--SECTION: Microsoft:Office-->
+            <Image condition="is">C:\Program Files\Microsoft Office\Office16\MSOSYNC.EXE</Image>
+            <Image condition="is">C:\Program Files (x86)\Microsoft Office\Office16\MSOSYNC.EXE</Image>
+            <Image condition="is">C:\Program Files\Common Files\Microsoft Shared\OfficeSoftwareProtectionPlatform\OSPPSVC.EXE</Image>
+            <Image condition="is">C:\Program Files\Microsoft Office\Office16\msoia.exe</Image>
+            <Image condition="is">C:\Program Files (x86)\Microsoft Office\root\Office16\officebackgroundtaskhandler.exe</Image>
+            <!--SECTION: Microsoft:Office:Click2Run-->
+            <Image condition="is">C:\Program Files\Common Files\Microsoft Shared\ClickToRun\OfficeC2RClient.exe</Image>
+            <ParentImage condition="is">C:\Program Files\Common Files\Microsoft Shared\ClickToRun\OfficeClickToRun.exe</ParentImage>
+            <ParentImage condition="is">C:\Program Files\Common Files\Microsoft Shared\ClickToRun\OfficeC2RClient.exe</ParentImage>
+            <!--SECTION: Windows: Media player-->
+            <Image condition="is">C:\Program Files\Windows Media Player\wmpnscfg.exe</Image>
+            <!--SECTION: Google-->
+            <CommandLine condition="begin with">"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --type=</CommandLine>
+            <CommandLine condition="begin with">"C:\Program Files\Google\Chrome\Application\chrome.exe" --type=</CommandLine>
+        </ProcessCreate>
+    </RuleGroup>
 
 
-	<!--SYSMON EVENT ID 11 : FILE CREATED [FileCreate]-->
-	<RuleGroup name="" groupRelation="or">
-		<FileCreate onmatch="include">
-			<!-- ========== PERSISTENCE LOCATIONS ========== -->
-			<TargetFilename name="T1023" condition="contains">\Start Menu</TargetFilename>
-			<TargetFilename name="T1165" condition="contains">\Startup\</TargetFilename>
-			<TargetFilename name="DefaultUserModified" condition="begin with">C:\Users\Default</TargetFilename>
-			<!-- ========== DOWNLOAD/ATTACHMENT LOCATIONS ========== -->
-			<TargetFilename name="OutlookAttachment" condition="contains">\Content.Outlook\</TargetFilename>
-			<TargetFilename name="Downloads" condition="contains">\Downloads\</TargetFilename>
-			<TargetFilename name="Desktop" condition="contains">\Desktop\</TargetFilename>
-			<TargetFilename name="Temp" condition="contains">\AppData\Local\Temp\</TargetFilename>
-			<!-- ========== DANGEROUS EXTENSIONS ========== -->
-			<TargetFilename name="EXE" condition="end with">.exe</TargetFilename>
-			<TargetFilename name="DLL" condition="end with">.dll</TargetFilename>
-			<TargetFilename condition="end with">.sys</TargetFilename>
-			<TargetFilename condition="end with">.scr</TargetFilename>
-			<TargetFilename condition="end with">.ocx</TargetFilename>
-			<TargetFilename condition="end with">.jar</TargetFilename>
-			<TargetFilename condition="end with">.jnlp</TargetFilename>
-			<!-- Scripts -->
-			<TargetFilename condition="end with">.bat</TargetFilename>
-			<TargetFilename condition="end with">.cmd</TargetFilename>
-			<TargetFilename condition="end with">.ps1</TargetFilename>
-			<TargetFilename condition="end with">.vbs</TargetFilename>
-			<TargetFilename condition="end with">.vbe</TargetFilename>
-			<TargetFilename condition="end with">.js</TargetFilename>
-			<TargetFilename condition="end with">.jse</TargetFilename>
-			<TargetFilename condition="end with">.wsf</TargetFilename>
-			<TargetFilename condition="end with">.wsc</TargetFilename>
-			<TargetFilename condition="end with">.sct</TargetFilename>
-			<TargetFilename condition="end with">.hta</TargetFilename>
-			<!-- Office Macros -->
-			<TargetFilename condition="end with">.docm</TargetFilename>
-			<TargetFilename condition="end with">.xlsm</TargetFilename>
-			<TargetFilename condition="end with">.pptm</TargetFilename>
-			<TargetFilename condition="end with">.dotm</TargetFilename>
-			<!-- Legacy Office -->
-			<TargetFilename condition="end with">.doc</TargetFilename>
-			<TargetFilename condition="end with">.xls</TargetFilename>
-			<TargetFilename condition="end with">.ppt</TargetFilename>
-			<TargetFilename condition="end with">.rtf</TargetFilename>
-			<!-- Archives -->
-			<TargetFilename condition="end with">.zip</TargetFilename>
-			<TargetFilename condition="end with">.rar</TargetFilename>
-			<TargetFilename condition="end with">.7z</TargetFilename>
-			<TargetFilename condition="end with">.iso</TargetFilename>
-			<TargetFilename condition="end with">.img</TargetFilename>
-			<TargetFilename condition="end with">.vhd</TargetFilename>
-			<TargetFilename condition="end with">.vhdx</TargetFilename>
-			<!-- Shortcuts/Links -->
-			<TargetFilename condition="end with">.lnk</TargetFilename>
-			<TargetFilename condition="end with">.url</TargetFilename>
-			<!-- ClickOnce -->
-			<TargetFilename condition="end with">.application</TargetFilename>
-			<TargetFilename condition="end with">.appref-ms</TargetFilename>
-			<!-- MSBuild -->
-			<TargetFilename condition="end with">.csproj</TargetFilename>
-			<TargetFilename condition="end with">.vbproj</TargetFilename>
-			<TargetFilename condition="end with">.sln</TargetFilename>
-			<TargetFilename condition="end with">.cmdline</TargetFilename>
-			<!-- Browser Extensions -->
-			<TargetFilename name="T1176" condition="end with">.crx</TargetFilename>
-			<TargetFilename condition="end with">.xpi</TargetFilename>
-			<!-- Other -->
-			<TargetFilename condition="end with">.chm</TargetFilename>
-			<TargetFilename condition="end with">.job</TargetFilename>
-			<TargetFilename condition="end with">.dmp</TargetFilename>
-			<TargetFilename condition="end with">.exe.log</TargetFilename>
-			<TargetFilename condition="end with">.msi</TargetFilename>
-			<TargetFilename condition="end with">.msp</TargetFilename>
-			<TargetFilename condition="end with">.cab</TargetFilename>
-			<!-- ========== CRITICAL SYSTEM LOCATIONS ========== -->
-			<TargetFilename condition="begin with">C:\Windows\system32\Drivers</TargetFilename>
-			<TargetFilename condition="begin with">C:\Windows\SysWOW64\Drivers</TargetFilename>
-			<TargetFilename name="T1037,T1484" condition="begin with">C:\Windows\system32\GroupPolicy\Machine\Scripts</TargetFilename>
-			<TargetFilename name="T1037,T1484" condition="begin with">C:\Windows\system32\GroupPolicy\User\Scripts</TargetFilename>
-			<TargetFilename condition="begin with">C:\Windows\system32\Wbem</TargetFilename>
-			<TargetFilename condition="begin with">C:\Windows\SysWOW64\Wbem</TargetFilename>
-			<TargetFilename condition="begin with">C:\Windows\system32\WindowsPowerShell</TargetFilename>
-			<TargetFilename condition="begin with">C:\Windows\SysWOW64\WindowsPowerShell</TargetFilename>
-			<TargetFilename name="T1053" condition="begin with">C:\Windows\Tasks\</TargetFilename>
-			<TargetFilename name="T1053" condition="begin with">C:\Windows\system32\Tasks</TargetFilename>
-			<TargetFilename condition="begin with">C:\Windows\AppPatch\Custom</TargetFilename>
-			<TargetFilename condition="contains">VirtualStore</TargetFilename>
-			<Image condition="begin with">\Device\HarddiskVolumeShadowCopy</Image>
-		</FileCreate>
-	</RuleGroup>
+    <!--SYSMON EVENT ID 3 : NETWORK CONNECTION INITIATED [NetworkConnect]-->
+    <RuleGroup name="" groupRelation="or">
+        <NetworkConnect onmatch="include">
+            <!--Suspicious sources for network-connecting binaries-->
+            <Image name="Usermode" condition="begin with">C:\Users</Image>
+            <Image name="Caution" condition="begin with">C:\Recycle</Image>
+            <Image condition="begin with">C:\ProgramData</Image>
+            <Image condition="begin with">C:\Windows\Temp</Image>
+            <Image name="Caution" condition="begin with">\</Image>
+            <Image name="Caution" condition="begin with">C:\perflogs</Image>
+            <Image name="Caution" condition="begin with">C:\intel</Image>
+            <Image name="Caution" condition="begin with">C:\Windows\fonts</Image>
+            <Image name="Caution" condition="begin with">C:\Windows\system32\config</Image>
+            <!--Suspicious Windows tools-->
+            <Image condition="image">at.exe</Image>
+            <Image condition="image">certutil.exe</Image>
+            <Image condition="image">cmd.exe</Image>
+            <Image condition="image">cmstp.exe</Image>
+            <Image condition="image">cscript.exe</Image>
+            <Image condition="image">driverquery.exe</Image>
+            <Image condition="image">dsquery.exe</Image>
+            <Image condition="image">hh.exe</Image>
+            <Image condition="image">infDefaultInstall.exe</Image>
+            <Image condition="image">java.exe</Image>
+            <Image condition="image">javaw.exe</Image>
+            <Image condition="image">javaws.exe</Image>
+            <Image condition="image">mmc.exe</Image>
+            <Image condition="image">msbuild.exe</Image>
+            <Image condition="image">mshta.exe</Image>
+            <Image condition="image">msiexec.exe</Image>
+            <Image condition="image">nbtstat.exe</Image>
+            <Image condition="image">net.exe</Image>
+            <Image condition="image">net1.exe</Image>
+            <Image condition="image">notepad.exe</Image>
+            <Image condition="image">nslookup.exe</Image>
+            <Image condition="image">powershell.exe</Image>
+            <Image condition="image">powershell_ise.exe</Image>
+            <Image condition="image">qprocess.exe</Image>
+            <Image condition="image">qwinsta.exe</Image>
+            <Image condition="image">qwinsta.exe</Image>
+            <Image condition="image">reg.exe</Image>
+            <Image condition="image">regsvcs.exe</Image>
+            <Image condition="image">regsvr32.exe</Image>
+            <Image condition="image">rundll32.exe</Image>
+            <Image condition="image">rwinsta.exe</Image>
+            <Image condition="image">sc.exe</Image>
+            <Image condition="image">schtasks.exe</Image>
+            <Image condition="image">taskkill.exe</Image>
+            <Image condition="image">tasklist.exe</Image>
+            <Image condition="image">wmic.exe</Image>
+            <Image condition="image">wscript.exe</Image>
+            <!--Live of the Land Binaries and scripts (LOLBAS) -->
+            <Image condition="image">bitsadmin.exe</Image>
+            <Image condition="image">esentutl.exe</Image>
+            <Image condition="image">expand.exe</Image>
+            <Image condition="image">extrac32.exe</Image>
+            <Image condition="image">findstr.exe</Image>
+            <Image condition="image">GfxDownloadWrapper.exe</Image>
+            <Image condition="image">ieexec.exe</Image>
+            <Image condition="image">makecab.exe</Image>
+            <Image condition="image">replace.exe</Image>
+            <Image condition="image">Excel.exe</Image>
+            <Image condition="image">Powerpnt.exe</Image>
+            <Image condition="image">Winword.exe</Image>
+            <Image condition="image">squirrel.exe</Image>
+            <!--Relevant 3rd Party Tools-->
+            <Image condition="image">nc.exe</Image>
+            <Image condition="image">ncat.exe</Image>
+            <Image condition="image">psexec.exe</Image>
+            <Image condition="image">psexesvc.exe</Image>
+            <Image condition="image">tor.exe</Image>
+            <Image condition="image">vnc.exe</Image>
+            <Image condition="image">vncservice.exe</Image>
+            <Image condition="image">vncviewer.exe</Image>
+            <Image condition="image">winexesvc.exe</Image>
+            <Image condition="image">nmap.exe</Image>
+            <Image condition="image">psinfo.exe</Image>
+            <!--Ports: Suspicious-->
+            <DestinationPort name="SSH" condition="is">22</DestinationPort>
+            <DestinationPort name="Telnet" condition="is">23</DestinationPort>
+            <DestinationPort name="SMTP" condition="is">25</DestinationPort>
+            <DestinationPort name="IMAP" condition="is">143</DestinationPort>
+            <DestinationPort name="RDP" condition="is">3389</DestinationPort>
+            <DestinationPort name="VNC" condition="is">5800</DestinationPort>
+            <DestinationPort name="VNC" condition="is">5900</DestinationPort>
+            <DestinationPort name="Alert,Metasploit" condition="is">4444</DestinationPort>
+            <!--Ports: Proxy-->
+            <DestinationPort name="Proxy" condition="is">1080</DestinationPort>
+            <DestinationPort name="Proxy" condition="is">3128</DestinationPort>
+            <DestinationPort name="Proxy" condition="is">8080</DestinationPort>
+            <!--Ports: Tor-->
+            <DestinationPort name="Tor" condition="is">1723</DestinationPort>
+            <DestinationPort name="Tor" condition="is">9001</DestinationPort>
+            <DestinationPort name="Tor" condition="is">9030</DestinationPort>
+        </NetworkConnect>
+    </RuleGroup>
 
-	<RuleGroup name="" groupRelation="or">
-		<FileCreate onmatch="include">
-			<!-- ========== DOWNLOAD LOCATIONS - ALL FILES ========== -->
-			<TargetFilename name="Downloads" condition="contains">\Downloads\</TargetFilename>
-			<TargetFilename name="Desktop" condition="contains">\Desktop\</TargetFilename>
-			<TargetFilename name="OutlookAttachment" condition="contains">\Content.Outlook\</TargetFilename>
-			<!-- ========== PERSISTENCE LOCATIONS ========== -->
-			<TargetFilename name="T1023" condition="contains">\Start Menu</TargetFilename>
-			<TargetFilename name="T1165" condition="contains">\Startup\</TargetFilename>
-			<TargetFilename name="DefaultUserModified" condition="begin with">C:\Users\Default</TargetFilename>
-			<!-- ========== SYSTEM LOCATIONS ========== -->
-			<TargetFilename condition="begin with">C:\Windows\system32\Drivers</TargetFilename>
-			<TargetFilename condition="begin with">C:\Windows\SysWOW64\Drivers</TargetFilename>
-			<TargetFilename name="T1037,T1484" condition="begin with">C:\Windows\system32\GroupPolicy\Machine\Scripts</TargetFilename>
-			<TargetFilename name="T1037,T1484" condition="begin with">C:\Windows\system32\GroupPolicy\User\Scripts</TargetFilename>
-			<TargetFilename condition="begin with">C:\Windows\system32\Wbem</TargetFilename>
-			<TargetFilename condition="begin with">C:\Windows\SysWOW64\Wbem</TargetFilename>
-			<TargetFilename condition="begin with">C:\Windows\system32\WindowsPowerShell</TargetFilename>
-			<TargetFilename condition="begin with">C:\Windows\SysWOW64\WindowsPowerShell</TargetFilename>
-			<TargetFilename name="T1053" condition="begin with">C:\Windows\Tasks\</TargetFilename>
-			<TargetFilename name="T1053" condition="begin with">C:\Windows\system32\Tasks</TargetFilename>
-			<TargetFilename condition="begin with">C:\Windows\AppPatch\Custom</TargetFilename>
-			<TargetFilename condition="contains">VirtualStore</TargetFilename>
-			<Image condition="begin with">\Device\HarddiskVolumeShadowCopy</Image>
-		</FileCreate>
-	</RuleGroup>
-
-	<RuleGroup name="" groupRelation="or">
-		<FileCreate onmatch="exclude">
-			<!-- ========== GENERAL TEMP ========== -->
-			<TargetFilename condition="end with">.tmp</TargetFilename>
-			<TargetFilename condition="end with">.temp</TargetFilename>
-			<TargetFilename condition="end with">.bak</TargetFilename>
-			<TargetFilename condition="end with">.old</TargetFilename>
-			<TargetFilename condition="end with">.chk</TargetFilename>
-			<TargetFilename condition="end with">~</TargetFilename>
-			<!-- ========== BROWSER DOWNLOAD TEMP ========== -->
-			<TargetFilename condition="end with">.crdownload</TargetFilename>
-			<TargetFilename condition="end with">.partial</TargetFilename>
-			<TargetFilename condition="end with">.part</TargetFilename>
-			<TargetFilename condition="end with">.downloading</TargetFilename>
-			<TargetFilename condition="end with">.download</TargetFilename>
-			<TargetFilename condition="end with">.opdownload</TargetFilename>
-			<!-- ========== OFFICE TEMP ========== -->
-			<TargetFilename condition="begin with">~$</TargetFilename>
-			<TargetFilename condition="end with">.wbk</TargetFilename>
-			<TargetFilename condition="end with">.xlk</TargetFilename>
-			<!-- ========== SYSTEM/LOG ========== -->
-			<TargetFilename condition="end with">.log</TargetFilename>
-			<TargetFilename condition="end with">.etl</TargetFilename>
-			<TargetFilename condition="end with">.dmp</TargetFilename>
-			<TargetFilename condition="end with">.cache</TargetFilename>
-			<TargetFilename condition="end with">.Identifier</TargetFilename>
-			<!-- ========== LOCK FILES ========== -->
-			<TargetFilename condition="end with">.lock</TargetFilename>
-			<TargetFilename condition="end with">.lck</TargetFilename>
-			<TargetFilename condition="end with">.pid</TargetFilename>
-			<!-- ========== SWAP FILES ========== -->
-			<TargetFilename condition="end with">.swp</TargetFilename>
-			<TargetFilename condition="end with">.swo</TargetFilename>
-			<!-- ========== INSTALLER TEMP ========== -->
-			<TargetFilename condition="end with">.mst</TargetFilename>
-			<TargetFilename condition="end with">.msp</TargetFilename>
-			<!-- ========== SQLITE TEMP ========== -->
-			<TargetFilename condition="end with">-journal</TargetFilename>
-			<TargetFilename condition="end with">-shm</TargetFilename>
-			<TargetFilename condition="end with">-wal</TargetFilename>
-			<!-- ========== TEMP PATHS ========== -->
-			<TargetFilename condition="contains">\Temp\</TargetFilename>
-			<TargetFilename condition="contains">\Cache\</TargetFilename>
-			<TargetFilename condition="contains">\AppData\Local\Google\Chrome\</TargetFilename>
-			<TargetFilename condition="contains">\AppData\Local\Microsoft\Edge\</TargetFilename>
-			<TargetFilename condition="contains">\AppData\Roaming\Mozilla\Firefox\Profiles\</TargetFilename>
-			<TargetFilename condition="contains">\AppData\Local\BraveSoftware\</TargetFilename>
-		</FileCreate>
-	</RuleGroup>
-
-	<RuleGroup name="" groupRelation="or">
-		<FileCreate onmatch="exclude">
-			<!--SECTION: Microsoft-->
-			<Image condition="is">C:\Program Files (x86)\EMET 5.5\EMET_Service.exe</Image>
-			<!--SECTION: Microsoft:Office:Click2Run-->
-			<Image condition="is">C:\Program Files\Common Files\Microsoft Shared\ClickToRun\OfficeC2RClient.exe</Image>
-			<!--SECTION: Windows-->
-			<Image condition="is">C:\Windows\system32\smss.exe</Image>
-			<Image condition="is">C:\Windows\system32\CompatTelRunner.exe</Image>
-			<Image condition="is">\\?\C:\Windows\system32\wbem\WMIADAP.EXE</Image>
-			<Image condition="is">C:\Windows\system32\mobsync.exe</Image>
-			<TargetFilename condition="begin with">C:\Windows\system32\DriverStore\Temp\</TargetFilename>
-			<TargetFilename condition="begin with">C:\Windows\system32\wbem\Performance\</TargetFilename>
-			<TargetFilename condition="begin with">C:\Windows\Installer\</TargetFilename>
-			<!--SECTION: Windows:Updates-->
-			<TargetFilename condition="begin with">C:\$WINDOWS.~BT\Sources\</TargetFilename>
-			<Image condition="begin with">C:\Windows\winsxs\amd64_microsoft-windows</Image>
-		</FileCreate>
-	</RuleGroup>
+    <RuleGroup name="" groupRelation="or">
+        <NetworkConnect onmatch="exclude">
+            <!--SECTION: Microsoft-->
+            <Image condition="begin with">C:\ProgramData\Microsoft\Windows Defender\Platform\</Image>
+            <Image condition="end with">AppData\Local\Microsoft\Teams\current\Teams.exe</Image>
+            <DestinationHostname condition="end with">.microsoft.com</DestinationHostname>
+            <DestinationHostname condition="end with">microsoft.com.akadns.net</DestinationHostname>
+            <DestinationHostname condition="end with">microsoft.com.nsatc.net</DestinationHostname>
+            <!--OCSP known addresses-->
+            <DestinationIp condition="is">23.4.43.27</DestinationIp>
+            <DestinationIp condition="is">72.21.91.29</DestinationIp>
+            <!--Section: Loopback Addresses-->
+            <DestinationIp condition="is">127.0.0.1</DestinationIp>
+            <DestinationIp condition="begin with">fe80:0:0:0</DestinationIp>
+        </NetworkConnect>
+    </RuleGroup>
 
 
-	<!--SYSMON EVENT ID 22 : DNS QUERY [DnsQuery]-->
-	<RuleGroup name="" groupRelation="or">
-		<DnsQuery onmatch="exclude">
-			<!--Network noise-->
-			<QueryName condition="end with">.arpa.</QueryName>
-			<QueryName condition="end with">.arpa</QueryName>
-			<QueryName condition="end with">.msftncsi.com</QueryName>
-			<QueryName condition="is">..localmachine</QueryName>
-			<QueryName condition="is">localhost</QueryName>
-			<!--Microsoft-->
-			<QueryName condition="end with">-pushp.svc.ms</QueryName>
-			<QueryName condition="end with">.b-msedge.net</QueryName>
-			<QueryName condition="end with">.bing.com</QueryName>
-			<QueryName condition="end with">.hotmail.com</QueryName>
-			<QueryName condition="end with">.live.com</QueryName>
-			<QueryName condition="end with">.live.net</QueryName>
-			<QueryName condition="end with">.s-microsoft.com</QueryName>
-			<QueryName condition="end with">.microsoft.com</QueryName>
-			<QueryName condition="end with">.microsoftonline.com</QueryName>
-			<QueryName condition="end with">.microsoftstore.com</QueryName>
-			<QueryName condition="end with">.ms-acdc.office.com</QueryName>
-			<QueryName condition="end with">.msedge.net</QueryName>
-			<QueryName condition="end with">.msn.com</QueryName>
-			<QueryName condition="end with">.msocdn.com</QueryName>
-			<QueryName condition="end with">.skype.com</QueryName>
-			<QueryName condition="end with">.skype.net</QueryName>
-			<QueryName condition="end with">.windows.com</QueryName>
-			<QueryName condition="end with">.windows.net.nsatc.net</QueryName>
-			<QueryName condition="end with">.windowsupdate.com</QueryName>
-			<QueryName condition="end with">.xboxlive.com</QueryName>
-			<QueryName condition="is">login.windows.net</QueryName>
-			<Image condition="begin with">C:\ProgramData\Microsoft\Windows Defender\Platform\</Image>
-			<!--Microsoft:Office365/AzureAD-->
-			<QueryName condition="end with">.activedirectory.windowsazure.com</QueryName>
-			<QueryName condition="end with">.aria.microsoft.com</QueryName>
-			<QueryName condition="end with">.msauth.net</QueryName>
-			<QueryName condition="end with">.msftauth.net</QueryName>
-			<QueryName condition="end with">.office.net</QueryName>
-			<QueryName condition="end with">.opinsights.azure.com</QueryName>
-			<QueryName condition="end with">.res.office365.com</QueryName>
-			<QueryName condition="is">acdc-direct.office.com</QueryName>
-			<QueryName condition="is">atm-fp-direct.office.com</QueryName>
-			<QueryName condition="is">loki.delve.office.com</QueryName>
-			<QueryName condition="is">management.azure.com</QueryName>
-			<QueryName condition="is">messaging.office.com</QueryName>
-			<QueryName condition="is">outlook.office365.com</QueryName>
-			<QueryName condition="is">portal.azure.com</QueryName>
-			<QueryName condition="is">protection.outlook.com</QueryName>
-			<QueryName condition="is">substrate.office.com</QueryName>
-			<QueryName condition="end with">.measure.office.com</QueryName>
-			<!--3rd-party applications-->
-			<QueryName condition="end with">.adobe.com</QueryName>
-			<QueryName condition="end with">.adobe.io</QueryName>
-			<QueryName condition="end with">.mozaws.net</QueryName>
-			<QueryName condition="end with">.mozilla.com</QueryName>
-			<QueryName condition="end with">.mozilla.net</QueryName>
-			<QueryName condition="end with">.mozilla.org</QueryName>
-			<QueryName condition="end with">.spotify.com</QueryName>
-			<QueryName condition="end with">.spotify.map.fastly.net</QueryName>
-			<QueryName condition="end with">.wbx2.com</QueryName>
-			<QueryName condition="end with">.webex.com</QueryName>
-			<QueryName condition="is">clients1.google.com</QueryName>
-			<QueryName condition="is">clients2.google.com</QueryName>
-			<QueryName condition="is">clients3.google.com</QueryName>
-			<QueryName condition="is">clients4.google.com</QueryName>
-			<QueryName condition="is">clients5.google.com</QueryName>
-			<QueryName condition="is">clients6.google.com</QueryName>
-			<QueryName condition="is">safebrowsing.googleapis.com</QueryName>
-			<!--Goodlist CDN-->
-			<QueryName condition="end with">.akadns.net</QueryName>
-			<QueryName condition="end with">.netflix.com</QueryName>
-			<QueryName condition="end with">aspnetcdn.com</QueryName>
-			<QueryName condition="is">ajax.googleapis.com</QueryName>
-			<QueryName condition="is">cdnjs.cloudflare.com</QueryName>
-			<QueryName condition="is">fonts.googleapis.com</QueryName>
-			<QueryName condition="end with">.typekit.net</QueryName>
-			<QueryName condition="is">cdnjs.cloudflare.com</QueryName>
-			<QueryName condition="end with">.stackassets.com</QueryName>
-			<QueryName condition="end with">.steamcontent.com</QueryName>
-			<QueryName condition="is">play.google.com</QueryName>
-			<QueryName condition="is">content-autofill.googleapis.com</QueryName>
-			<!--Web resources-->
-			<QueryName condition="end with">.disqus.com</QueryName>
-			<QueryName condition="end with">.fontawesome.com</QueryName>
-			<QueryName condition="is">disqus.com</QueryName>
-			<!--Ads - Extensive list excluded for brevity, keeping same as original-->
-			<QueryName condition="end with">.1rx.io</QueryName>
-			<QueryName condition="end with">.2mdn.net</QueryName>
-			<QueryName condition="end with">.3lift.com</QueryName>
-			<QueryName condition="end with">.adadvisor.net</QueryName>
-			<QueryName condition="end with">.adap.tv</QueryName>
-			<QueryName condition="end with">.addthis.com</QueryName>
-			<QueryName condition="end with">.adform.net</QueryName>
-			<QueryName condition="end with">.adnxs.com</QueryName>
-			<QueryName condition="end with">.adroll.com</QueryName>
-			<QueryName condition="end with">.adrta.com</QueryName>
-			<QueryName condition="end with">.adsafeprotected.com</QueryName>
-			<QueryName condition="end with">.adsrvr.org</QueryName>
-			<QueryName condition="end with">.adsymptotic.com</QueryName>
-			<QueryName condition="end with">.advertising.com</QueryName>
-			<QueryName condition="end with">.agkn.com</QueryName>
-			<QueryName condition="end with">.amazon-adsystem.com</QueryName>
-			<QueryName condition="end with">.analytics.yahoo.com</QueryName>
-			<QueryName condition="end with">.aol.com</QueryName>
-			<QueryName condition="end with">.betrad.com</QueryName>
-			<QueryName condition="end with">.bidswitch.net</QueryName>
-			<QueryName condition="end with">.casalemedia.com</QueryName>
-			<QueryName condition="end with">.chartbeat.net</QueryName>
-			<QueryName condition="end with">.cnn.com</QueryName>
-			<QueryName condition="end with">.convertro.com</QueryName>
-			<QueryName condition="end with">.criteo.com</QueryName>
-			<QueryName condition="end with">.criteo.net</QueryName>
-			<QueryName condition="end with">.crwdcntrl.net</QueryName>
-			<QueryName condition="end with">.demdex.net</QueryName>
-			<QueryName condition="end with">.domdex.com</QueryName>
-			<QueryName condition="end with">.dotomi.com</QueryName>
-			<QueryName condition="end with">.doubleclick.net</QueryName>
-			<QueryName condition="end with">.doubleverify.com</QueryName>
-			<QueryName condition="end with">.emxdgt.com</QueryName>
-			<QueryName condition="end with">.everesttech.net</QueryName>
-			<QueryName condition="end with">.exelator.com</QueryName>
-			<QueryName condition="end with">.google-analytics.com</QueryName>
-			<QueryName condition="end with">.googleadservices.com</QueryName>
-			<QueryName condition="end with">.googlesyndication.com</QueryName>
-			<QueryName condition="end with">.googletagmanager.com</QueryName>
-			<QueryName condition="end with">.googlevideo.com</QueryName>
-			<QueryName condition="end with">.gstatic.com</QueryName>
-			<QueryName condition="end with">.gvt1.com</QueryName>
-			<QueryName condition="end with">.gvt2.com</QueryName>
-			<QueryName condition="end with">.ib-ibi.com</QueryName>
-			<QueryName condition="end with">.jivox.com</QueryName>
-			<QueryName condition="end with">.krxd.net</QueryName>
-			<QueryName condition="end with">.lijit.com</QueryName>
-			<QueryName condition="end with">.mathtag.com</QueryName>
-			<QueryName condition="end with">.moatads.com</QueryName>
-			<QueryName condition="end with">.moatpixel.com</QueryName>
-			<QueryName condition="end with">.mookie1.com</QueryName>
-			<QueryName condition="end with">.myvisualiq.net</QueryName>
-			<QueryName condition="end with">.netmng.com</QueryName>
-			<QueryName condition="end with">.nexac.com</QueryName>
-			<QueryName condition="end with">.openx.net</QueryName>
-			<QueryName condition="end with">.optimizely.com</QueryName>
-			<QueryName condition="end with">.outbrain.com</QueryName>
-			<QueryName condition="end with">.pardot.com</QueryName>
-			<QueryName condition="end with">.phx.gbl</QueryName>
-			<QueryName condition="end with">.pinterest.com</QueryName>
-			<QueryName condition="end with">.pubmatic.com</QueryName>
-			<QueryName condition="end with">.quantcount.com</QueryName>
-			<QueryName condition="end with">.quantserve.com</QueryName>
-			<QueryName condition="end with">.revsci.net</QueryName>
-			<QueryName condition="end with">.rfihub.net</QueryName>
-			<QueryName condition="end with">.rlcdn.com</QueryName>
-			<QueryName condition="end with">.rubiconproject.com</QueryName>
-			<QueryName condition="end with">.scdn.co</QueryName>
-			<QueryName condition="end with">.scorecardresearch.com</QueryName>
-			<QueryName condition="end with">.serving-sys.com</QueryName>
-			<QueryName condition="end with">.sharethrough.com</QueryName>
-			<QueryName condition="end with">.simpli.fi</QueryName>
-			<QueryName condition="end with">.sitescout.com</QueryName>
-			<QueryName condition="end with">.smartadserver.com</QueryName>
-			<QueryName condition="end with">.snapads.com</QueryName>
-			<QueryName condition="end with">.spotxchange.com</QueryName>
-			<QueryName condition="end with">.taboola.com</QueryName>
-			<QueryName condition="end with">.taboola.map.fastly.net</QueryName>
-			<QueryName condition="end with">.tapad.com</QueryName>
-			<QueryName condition="end with">.tidaltv.com</QueryName>
-			<QueryName condition="end with">.trafficmanager.net</QueryName>
-			<QueryName condition="end with">.tremorhub.com</QueryName>
-			<QueryName condition="end with">.tribalfusion.com</QueryName>
-			<QueryName condition="end with">.turn.com</QueryName>
-			<QueryName condition="end with">.twimg.com</QueryName>
-			<QueryName condition="end with">.tynt.com</QueryName>
-			<QueryName condition="end with">.w55c.net</QueryName>
-			<QueryName condition="end with">.ytimg.com</QueryName>
-			<QueryName condition="end with">.zorosrv.com</QueryName>
-			<QueryName condition="is">1rx.io</QueryName>
-			<QueryName condition="is">adservice.google.com</QueryName>
-			<QueryName condition="is">ampcid.google.com</QueryName>
-			<QueryName condition="is">clientservices.googleapis.com</QueryName>
-			<QueryName condition="is">googleadapis.l.google.com</QueryName>
-			<QueryName condition="is">imasdk.googleapis.com</QueryName>
-			<QueryName condition="is">l.google.com</QueryName>
-			<QueryName condition="is">ml314.com</QueryName>
-			<QueryName condition="is">mtalk.google.com</QueryName>
-			<QueryName condition="is">update.googleapis.com</QueryName>
-			<QueryName condition="is">www.googletagservices.com</QueryName>
-			<!--SocialNet-->
-			<QueryName condition="end with">.pscp.tv</QueryName>
-			<!--OSCP/CRL Common-->
-			<QueryName condition="end with">.amazontrust.com</QueryName>
-			<QueryName condition="end with">.digicert.com</QueryName>
-			<QueryName condition="end with">.globalsign.com</QueryName>
-			<QueryName condition="end with">.globalsign.net</QueryName>
-			<QueryName condition="end with">.intel.com</QueryName>
-			<QueryName condition="end with">.symcb.com</QueryName>
-			<QueryName condition="end with">.symcd.com</QueryName>
-			<QueryName condition="end with">.thawte.com</QueryName>
-			<QueryName condition="end with">.usertrust.com</QueryName>
-			<QueryName condition="end with">.verisign.com</QueryName>
-			<QueryName condition="end with">ocsp.identrust.com</QueryName>
-			<QueryName condition="end with">pki.goog</QueryName>
-			<QueryName condition="is">msocsp.com</QueryName>
-			<QueryName condition="is">ocsp.comodoca.com</QueryName>
-			<QueryName condition="is">ocsp.entrust.net</QueryName>
-			<QueryName condition="is">ocsp.godaddy.com</QueryName>
-			<QueryName condition="is">ocsp.int-x3.letsencrypt.org</QueryName>
-			<QueryName condition="is">ocsp.msocsp.com</QueryName>
-			<QueryName condition="end with">pki.goog</QueryName>
-			<QueryName condition="is">ocsp.godaddy.com</QueryName>
-			<QueryName condition="end with">amazontrust.com</QueryName>
-			<QueryName condition="is">ocsp.sectigo.com</QueryName>
-			<QueryName condition="is">pki-goog.l.google.com</QueryName>
-			<QueryName condition="end with">.usertrust.com</QueryName>
-			<QueryName condition="is">ocsp.comodoca.com</QueryName>
-			<QueryName condition="is">ocsp.verisign.com</QueryName>
-			<QueryName condition="is">ocsp.entrust.net</QueryName>
-			<QueryName condition="end with">ocsp.identrust.com</QueryName>
-			<QueryName condition="is">status.rapidssl.com</QueryName>
-			<QueryName condition="is">status.thawte.com</QueryName>
-			<QueryName condition="is">ocsp.int-x3.letsencrypt.org</QueryName>
-		</DnsQuery>
-	</RuleGroup>
+    <!--SYSMON EVENT ID 11 : FILE CREATED [FileCreate]-->
+    <RuleGroup name="" groupRelation="or">
+        <FileCreate onmatch="include">
+            <!-- ========== PERSISTENCE LOCATIONS ========== -->
+            <TargetFilename name="T1023" condition="contains">\Start Menu</TargetFilename>
+            <TargetFilename name="T1165" condition="contains">\Startup\</TargetFilename>
+            <TargetFilename name="DefaultUserModified" condition="begin with">C:\Users\Default</TargetFilename>
+            <!-- ========== DOWNLOAD/ATTACHMENT LOCATIONS ========== -->
+            <TargetFilename name="OutlookAttachment" condition="contains">\Content.Outlook\</TargetFilename>
+            <TargetFilename name="Downloads" condition="contains">\Downloads\</TargetFilename>
+            <TargetFilename name="Desktop" condition="contains">\Desktop\</TargetFilename>
+            <TargetFilename name="Temp" condition="contains">\AppData\Local\Temp\</TargetFilename>
+            <!-- ========== DANGEROUS EXTENSIONS ========== -->
+            <TargetFilename name="EXE" condition="end with">.exe</TargetFilename>
+            <TargetFilename name="DLL" condition="end with">.dll</TargetFilename>
+            <TargetFilename condition="end with">.sys</TargetFilename>
+            <TargetFilename condition="end with">.scr</TargetFilename>
+            <TargetFilename condition="end with">.ocx</TargetFilename>
+            <TargetFilename condition="end with">.jar</TargetFilename>
+            <TargetFilename condition="end with">.jnlp</TargetFilename>
+            <!-- Scripts -->
+            <TargetFilename condition="end with">.bat</TargetFilename>
+            <TargetFilename condition="end with">.cmd</TargetFilename>
+            <TargetFilename condition="end with">.ps1</TargetFilename>
+            <TargetFilename condition="end with">.vbs</TargetFilename>
+            <TargetFilename condition="end with">.vbe</TargetFilename>
+                    <!-- ========== DANGEROUS EXTENSIONS 
+    
+            <TargetFilename condition="end with">.js</TargetFilename>
+            <TargetFilename condition="end with">.jse</TargetFilename>
+            <TargetFilename condition="end with">.wsf</TargetFilename>
+            <TargetFilename condition="end with">.wsc</TargetFilename>
+            <TargetFilename condition="end with">.sct</TargetFilename>
+            <TargetFilename condition="end with">.hta</TargetFilename>
+            ========== -->
+            <!-- Office Macros -->
+            <TargetFilename condition="end with">.docm</TargetFilename>
+            <TargetFilename condition="end with">.xlsm</TargetFilename>
+            <TargetFilename condition="end with">.pptm</TargetFilename>
+            <TargetFilename condition="end with">.dotm</TargetFilename>
+            <!-- Legacy Office -->
+            <TargetFilename condition="end with">.doc</TargetFilename>
+            <TargetFilename condition="end with">.xls</TargetFilename>
+            <TargetFilename condition="end with">.ppt</TargetFilename>
+            <TargetFilename condition="end with">.rtf</TargetFilename>
+            <!-- Archives -->
+            <TargetFilename condition="end with">.zip</TargetFilename>
+            <TargetFilename condition="end with">.rar</TargetFilename>
+            <TargetFilename condition="end with">.7z</TargetFilename>
+            <TargetFilename condition="end with">.iso</TargetFilename>
+            <TargetFilename condition="end with">.img</TargetFilename>
+            <TargetFilename condition="end with">.vhd</TargetFilename>
+            <TargetFilename condition="end with">.vhdx</TargetFilename>
+            <!-- Shortcuts/Links -->
+            <TargetFilename condition="end with">.lnk</TargetFilename>
+            <TargetFilename condition="end with">.url</TargetFilename>
+            <!-- ClickOnce -->
+            <TargetFilename condition="end with">.application</TargetFilename>
+            <TargetFilename condition="end with">.appref-ms</TargetFilename>
+            <!-- MSBuild -->
+            <TargetFilename condition="end with">.csproj</TargetFilename>
+            <TargetFilename condition="end with">.vbproj</TargetFilename>
+            <TargetFilename condition="end with">.sln</TargetFilename>
+            <TargetFilename condition="end with">.cmdline</TargetFilename>
+            <!-- Browser Extensions -->
+            <TargetFilename name="T1176" condition="end with">.crx</TargetFilename>
+            <TargetFilename condition="end with">.xpi</TargetFilename>
+            <!-- Other -->
+            <TargetFilename condition="end with">.chm</TargetFilename>
+            <TargetFilename condition="end with">.job</TargetFilename>
+            <TargetFilename condition="end with">.dmp</TargetFilename>
+            <TargetFilename condition="end with">.exe.log</TargetFilename>
+            <TargetFilename condition="end with">.msi</TargetFilename>
+            <TargetFilename condition="end with">.msp</TargetFilename>
+            <TargetFilename condition="end with">.cab</TargetFilename>
+            <!-- ========== CRITICAL SYSTEM LOCATIONS ========== -->
+            <TargetFilename condition="begin with">C:\Windows\system32\Drivers</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\SysWOW64\Drivers</TargetFilename>
+            <TargetFilename name="T1037,T1484" condition="begin with">C:\Windows\system32\GroupPolicy\Machine\Scripts</TargetFilename>
+            <TargetFilename name="T1037,T1484" condition="begin with">C:\Windows\system32\GroupPolicy\User\Scripts</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\system32\Wbem</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\SysWOW64\Wbem</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\system32\WindowsPowerShell</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\SysWOW64\WindowsPowerShell</TargetFilename>
+            <TargetFilename name="T1053" condition="begin with">C:\Windows\Tasks\</TargetFilename>
+            <TargetFilename name="T1053" condition="begin with">C:\Windows\system32\Tasks</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\AppPatch\Custom</TargetFilename>
+            <TargetFilename condition="contains">VirtualStore</TargetFilename>
+            <Image condition="begin with">\Device\HarddiskVolumeShadowCopy</Image>
+        </FileCreate>
+    </RuleGroup>
+
+    <RuleGroup name="" groupRelation="or">
+        <FileCreate onmatch="include">
+            <!-- ========== DOWNLOAD LOCATIONS - ALL FILES ========== -->
+            <TargetFilename name="Downloads" condition="contains">\Downloads\</TargetFilename>
+            <TargetFilename name="Desktop" condition="contains">\Desktop\</TargetFilename>
+            <TargetFilename name="OutlookAttachment" condition="contains">\Content.Outlook\</TargetFilename>
+            <!-- ========== PERSISTENCE LOCATIONS ========== -->
+            <TargetFilename name="T1023" condition="contains">\Start Menu</TargetFilename>
+            <TargetFilename name="T1165" condition="contains">\Startup\</TargetFilename>
+            <TargetFilename name="DefaultUserModified" condition="begin with">C:\Users\Default</TargetFilename>
+            <!-- ========== SYSTEM LOCATIONS ========== -->
+            <TargetFilename condition="begin with">C:\Windows\system32\Drivers</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\SysWOW64\Drivers</TargetFilename>
+            <TargetFilename name="T1037,T1484" condition="begin with">C:\Windows\system32\GroupPolicy\Machine\Scripts</TargetFilename>
+            <TargetFilename name="T1037,T1484" condition="begin with">C:\Windows\system32\GroupPolicy\User\Scripts</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\system32\Wbem</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\SysWOW64\Wbem</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\system32\WindowsPowerShell</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\SysWOW64\WindowsPowerShell</TargetFilename>
+            <TargetFilename name="T1053" condition="begin with">C:\Windows\Tasks\</TargetFilename>
+            <TargetFilename name="T1053" condition="begin with">C:\Windows\system32\Tasks</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\AppPatch\Custom</TargetFilename>
+            <TargetFilename condition="contains">VirtualStore</TargetFilename>
+            <Image condition="begin with">\Device\HarddiskVolumeShadowCopy</Image>
+        </FileCreate>
+    </RuleGroup>
+
+    <RuleGroup name="" groupRelation="or">
+        <FileCreate onmatch="exclude">
+            <!-- ========== GENERAL TEMP ========== -->
+            <TargetFilename condition="end with">.tmp</TargetFilename>
+            <TargetFilename condition="end with">.temp</TargetFilename>
+            <TargetFilename condition="end with">.bak</TargetFilename>
+            <TargetFilename condition="end with">.old</TargetFilename>
+            <TargetFilename condition="end with">.chk</TargetFilename>
+            <TargetFilename condition="end with">~</TargetFilename>
+            <!-- ========== BROWSER DOWNLOAD TEMP ========== -->
+            <TargetFilename condition="end with">.crdownload</TargetFilename>
+            <TargetFilename condition="end with">.partial</TargetFilename>
+            <TargetFilename condition="end with">.part</TargetFilename>
+            <TargetFilename condition="end with">.downloading</TargetFilename>
+            <TargetFilename condition="end with">.download</TargetFilename>
+            <TargetFilename condition="end with">.opdownload</TargetFilename>
+            <!-- ========== OFFICE TEMP ========== -->
+            <TargetFilename condition="begin with">~$</TargetFilename>
+            <TargetFilename condition="end with">.wbk</TargetFilename>
+            <TargetFilename condition="end with">.xlk</TargetFilename>
+            <!-- ========== SYSTEM/LOG ========== -->
+            <TargetFilename condition="end with">.log</TargetFilename>
+            <TargetFilename condition="end with">.etl</TargetFilename>
+            <TargetFilename condition="end with">.dmp</TargetFilename>
+            <TargetFilename condition="end with">.cache</TargetFilename>
+            <TargetFilename condition="end with">.Identifier</TargetFilename>
+            <!-- ========== LOCK FILES ========== -->
+            <TargetFilename condition="end with">.lock</TargetFilename>
+            <TargetFilename condition="end with">.lck</TargetFilename>
+            <TargetFilename condition="end with">.pid</TargetFilename>
+            <!-- ========== SWAP FILES ========== -->
+            <TargetFilename condition="end with">.swp</TargetFilename>
+            <TargetFilename condition="end with">.swo</TargetFilename>
+            <!-- ========== INSTALLER TEMP ========== -->
+            <TargetFilename condition="end with">.mst</TargetFilename>
+            <TargetFilename condition="end with">.msp</TargetFilename>
+            <!-- ========== SQLITE TEMP ========== -->
+            <TargetFilename condition="end with">-journal</TargetFilename>
+            <TargetFilename condition="end with">-shm</TargetFilename>
+            <TargetFilename condition="end with">-wal</TargetFilename>
+            <!-- ========== TEMP PATHS ========== -->
+            <TargetFilename condition="contains">\Temp\</TargetFilename>
+            <TargetFilename condition="contains">\Cache\</TargetFilename>
+            <TargetFilename condition="contains">\AppData\Local\Google\Chrome\</TargetFilename>
+            <TargetFilename condition="contains">\AppData\Local\Microsoft\Edge\</TargetFilename>
+            <TargetFilename condition="contains">\AppData\Roaming\Mozilla\Firefox\Profiles\</TargetFilename>
+            <TargetFilename condition="contains">\AppData\Local\BraveSoftware\</TargetFilename>
+        </FileCreate>
+    </RuleGroup>
+
+    <RuleGroup name="" groupRelation="or">
+        <FileCreate onmatch="exclude">
+            <!--SECTION: Microsoft-->
+            <Image condition="is">C:\Program Files (x86)\EMET 5.5\EMET_Service.exe</Image>
+            <!--SECTION: Microsoft:Office:Click2Run-->
+            <Image condition="is">C:\Program Files\Common Files\Microsoft Shared\ClickToRun\OfficeC2RClient.exe</Image>
+            <!--SECTION: Windows-->
+            <Image condition="is">C:\Windows\system32\smss.exe</Image>
+            <Image condition="is">C:\Windows\system32\CompatTelRunner.exe</Image>
+            <Image condition="is">\\?\C:\Windows\system32\wbem\WMIADAP.EXE</Image>
+            <Image condition="is">C:\Windows\system32\mobsync.exe</Image>
+            <TargetFilename condition="begin with">C:\Windows\system32\DriverStore\Temp\</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\system32\wbem\Performance\</TargetFilename>
+            <TargetFilename condition="begin with">C:\Windows\Installer\</TargetFilename>
+            <!--SECTION: Windows:Updates-->
+            <TargetFilename condition="begin with">C:\$WINDOWS.~BT\Sources\</TargetFilename>
+            <Image condition="begin with">C:\Windows\winsxs\amd64_microsoft-windows</Image>
+        </FileCreate>
+    </RuleGroup>
 
 
-	<!--=======================================================================
-	    SYSMON EVENT ID 24 : CLIPBOARD CHANGE [ClipboardChange]
-	    DLP MONITORING - CATCH-ALL APPROACH (Exclude noise only)
-	    MITRE ATT&CK: T1115 (Clipboard Data)
-	=======================================================================-->
-	<!--COMMENT: CATCH-ALL LOGIC - Monitors ALL clipboard operations EXCEPT system noise.
-	            This catches unknown processes, browser sandboxes, new applications.
-	            Works with Wazuh rules 100624, 100700-100705 for correlation with AI platforms.
-	            Archive saves clipboard content to C:\Sysmon\Archive (SYSTEM access only).
-	            
-	            IMPORTANT LIMITATION: Sysmon Event 24 detects clipboard CHANGE (copy),
-	            NOT paste operations. To detect paste destination, correlate with:
-	            - Event 22 (DNS) for domain access
-	            - Event 3 (Network) for connections
-	            
-	            PRIVACY NOTE: CaptureClipboard saves ALL copied content including passwords! -->
-	
-	<!--DATA: UtcTime, ProcessGuid, ProcessId, Image, Session, ClientInfo, Hashes, Archived-->
-	
-	<!--STRATEGY: Exclude only system noise = Catch EVERYTHING else including:
-	    - Unknown/new applications
-	    - Browser sandbox processes (chrome type=renderer)
-	    - Malicious processes
-	    - Any process not explicitly excluded -->
-	
-	<RuleGroup name="DLP_Clipboard_CatchAll" groupRelation="or">
-		<ClipboardChange onmatch="exclude">
-			<!--=== WINDOWS SYSTEM PROCESSES (High noise, low value) ===-->
-			<Image condition="image">svchost.exe</Image>
-			<Image condition="image">csrss.exe</Image>
-			<Image condition="image">dwm.exe</Image>
-			<Image condition="image">taskhostw.exe</Image>
-			<Image condition="image">RuntimeBroker.exe</Image>
-			<Image condition="image">SearchHost.exe</Image>
-			<Image condition="image">SearchUI.exe</Image>
-			<Image condition="image">ShellExperienceHost.exe</Image>
-			<Image condition="image">StartMenuExperienceHost.exe</Image>
-			<Image condition="image">TextInputHost.exe</Image>
-			<Image condition="image">ctfmon.exe</Image>
-			<Image condition="image">SystemSettings.exe</Image>
-			<Image condition="image">SecurityHealthSystray.exe</Image>
-			<Image condition="image">PhoneExperienceHost.exe</Image>
-			<Image condition="image">WidgetService.exe</Image>
-			<Image condition="image">Widgets.exe</Image>
-			<Image condition="image">sihost.exe</Image>
-			<Image condition="image">fontdrvhost.exe</Image>
-			<Image condition="image">WmiPrvSE.exe</Image>
-			<Image condition="image">dllhost.exe</Image>
-			<Image condition="image">conhost.exe</Image>
-			<Image condition="image">wininit.exe</Image>
-			<Image condition="image">winlogon.exe</Image>
-			<Image condition="image">lsass.exe</Image>
-			<Image condition="image">services.exe</Image>
-			<Image condition="image">smss.exe</Image>
-			<Image condition="image">spoolsv.exe</Image>
-			<Image condition="image">SearchIndexer.exe</Image>
-			<Image condition="image">SearchProtocolHost.exe</Image>
-			<Image condition="image">SearchFilterHost.exe</Image>
-			<Image condition="image">ApplicationFrameHost.exe</Image>
-			<Image condition="image">backgroundTaskHost.exe</Image>
-			<Image condition="image">CompPkgSrv.exe</Image>
-			<Image condition="image">smartscreen.exe</Image>
-			<Image condition="image">UserOOBEBroker.exe</Image>
-			<Image condition="image">GameBarPresenceWriter.exe</Image>
-			<Image condition="image">Video.UI.exe</Image>
-			<Image condition="image">WindowsInternal.ComposableShell.Experiences.TextInput.InputApp.exe</Image>
-			
-			<!--=== WINDOWS SYSTEM PATHS ===-->
-			<Image condition="begin with">C:\Windows\SystemApps\</Image>
-			<Image condition="begin with">C:\Windows\ImmersiveControlPanel\</Image>
-			<Image condition="begin with">C:\Windows\System32\</Image>
-			<Image condition="begin with">C:\Windows\SysWOW64\</Image>
-			
-			<!--=== SECURITY SOFTWARE (Trust but verify separately) ===-->
-			<Image condition="begin with">C:\ProgramData\Microsoft\Windows Defender\</Image>
-			<Image condition="begin with">C:\Program Files\Windows Defender\</Image>
-			<Image condition="begin with">C:\Program Files\Microsoft Security Client\</Image>
-			<Image condition="begin with">C:\Program Files\CrowdStrike\</Image>
-			<Image condition="begin with">C:\Program Files\SentinelOne\</Image>
-			<Image condition="begin with">C:\Program Files\Carbon Black\</Image>
-			<Image condition="begin with">C:\Program Files\Symantec\</Image>
-			<Image condition="begin with">C:\Program Files\McAfee\</Image>
-			<Image condition="begin with">C:\Program Files\Kaspersky Lab\</Image>
-			<Image condition="begin with">C:\Program Files\ESET\</Image>
-			<Image condition="begin with">C:\Program Files\Sophos\</Image>
-			<Image condition="begin with">C:\Program Files\Trend Micro\</Image>
-			<Image condition="begin with">C:\Program Files\Bitdefender\</Image>
-			<Image condition="begin with">C:\Program Files\Malwarebytes\</Image>
-			
-			<!--=== OPTIONAL: Password Managers (Uncomment if too noisy) ===-->
-			<!--WARNING: Excluding these means you won't see password copies!-->
-			<!--<Image condition="image">KeePass.exe</Image>-->
-			<!--<Image condition="image">KeePassXC.exe</Image>-->
-			<!--<Image condition="image">1Password.exe</Image>-->
-			<!--<Image condition="image">LastPass.exe</Image>-->
-			<!--<Image condition="image">Bitwarden.exe</Image>-->
-			<!--<Image condition="image">Dashlane.exe</Image>-->
-			<!--<Image condition="image">RoboForm.exe</Image>-->
-		</ClipboardChange>
-	</RuleGroup>
+    <!--SYSMON EVENT ID 22 : DNS QUERY [DnsQuery]-->
+    <RuleGroup name="" groupRelation="or">
+        <DnsQuery onmatch="exclude">
+            <!--Network noise-->
+            <QueryName condition="end with">.arpa.</QueryName>
+            <QueryName condition="end with">.arpa</QueryName>
+            <QueryName condition="end with">.msftncsi.com</QueryName>
+            <QueryName condition="is">..localmachine</QueryName>
+            <QueryName condition="is">localhost</QueryName>
+            <!--Microsoft-->
+            <QueryName condition="end with">-pushp.svc.ms</QueryName>
+            <QueryName condition="end with">.b-msedge.net</QueryName>
+            <QueryName condition="end with">.bing.com</QueryName>
+            <QueryName condition="end with">.hotmail.com</QueryName>
+            <QueryName condition="end with">.live.com</QueryName>
+            <QueryName condition="end with">.live.net</QueryName>
+            <QueryName condition="end with">.s-microsoft.com</QueryName>
+            <QueryName condition="end with">.microsoft.com</QueryName>
+            <QueryName condition="end with">.microsoftonline.com</QueryName>
+            <QueryName condition="end with">.microsoftstore.com</QueryName>
+            <QueryName condition="end with">.ms-acdc.office.com</QueryName>
+            <QueryName condition="end with">.msedge.net</QueryName>
+            <QueryName condition="end with">.msn.com</QueryName>
+            <QueryName condition="end with">.msocdn.com</QueryName>
+            <QueryName condition="end with">.skype.com</QueryName>
+            <QueryName condition="end with">.skype.net</QueryName>
+            <QueryName condition="end with">.windows.com</QueryName>
+            <QueryName condition="end with">.windows.net.nsatc.net</QueryName>
+            <QueryName condition="end with">.windowsupdate.com</QueryName>
+            <QueryName condition="end with">.xboxlive.com</QueryName>
+            <QueryName condition="is">login.windows.net</QueryName>
+            <Image condition="begin with">C:\ProgramData\Microsoft\Windows Defender\Platform\</Image>
+            <!--Microsoft:Office365/AzureAD-->
+            <QueryName condition="end with">.activedirectory.windowsazure.com</QueryName>
+            <QueryName condition="end with">.aria.microsoft.com</QueryName>
+            <QueryName condition="end with">.msauth.net</QueryName>
+            <QueryName condition="end with">.msftauth.net</QueryName>
+            <QueryName condition="end with">.office.net</QueryName>
+            <QueryName condition="end with">.opinsights.azure.com</QueryName>
+            <QueryName condition="end with">.res.office365.com</QueryName>
+            <QueryName condition="is">acdc-direct.office.com</QueryName>
+            <QueryName condition="is">atm-fp-direct.office.com</QueryName>
+            <QueryName condition="is">loki.delve.office.com</QueryName>
+            <QueryName condition="is">management.azure.com</QueryName>
+            <QueryName condition="is">messaging.office.com</QueryName>
+            <QueryName condition="is">outlook.office365.com</QueryName>
+            <QueryName condition="is">portal.azure.com</QueryName>
+            <QueryName condition="is">protection.outlook.com</QueryName>
+            <QueryName condition="is">substrate.office.com</QueryName>
+            <QueryName condition="end with">.measure.office.com</QueryName>
+            <!--3rd-party applications-->
+            <QueryName condition="end with">.adobe.com</QueryName>
+            <QueryName condition="end with">.adobe.io</QueryName>
+            <QueryName condition="end with">.mozaws.net</QueryName>
+            <QueryName condition="end with">.mozilla.com</QueryName>
+            <QueryName condition="end with">.mozilla.net</QueryName>
+            <QueryName condition="end with">.mozilla.org</QueryName>
+            <QueryName condition="end with">.spotify.com</QueryName>
+            <QueryName condition="end with">.spotify.map.fastly.net</QueryName>
+            <QueryName condition="end with">.wbx2.com</QueryName>
+            <QueryName condition="end with">.webex.com</QueryName>
+            <QueryName condition="is">clients1.google.com</QueryName>
+            <QueryName condition="is">clients2.google.com</QueryName>
+            <QueryName condition="is">clients3.google.com</QueryName>
+            <QueryName condition="is">clients4.google.com</QueryName>
+            <QueryName condition="is">clients5.google.com</QueryName>
+            <QueryName condition="is">clients6.google.com</QueryName>
+            <QueryName condition="is">safebrowsing.googleapis.com</QueryName>
+            <!--Goodlist CDN-->
+            <QueryName condition="end with">.akadns.net</QueryName>
+            <QueryName condition="end with">.netflix.com</QueryName>
+            <QueryName condition="end with">aspnetcdn.com</QueryName>
+            <QueryName condition="is">ajax.googleapis.com</QueryName>
+            <QueryName condition="is">cdnjs.cloudflare.com</QueryName>
+            <QueryName condition="is">fonts.googleapis.com</QueryName>
+            <QueryName condition="end with">.typekit.net</QueryName>
+            <QueryName condition="is">cdnjs.cloudflare.com</QueryName>
+            <QueryName condition="end with">.stackassets.com</QueryName>
+            <QueryName condition="end with">.steamcontent.com</QueryName>
+            <QueryName condition="is">play.google.com</QueryName>
+            <QueryName condition="is">content-autofill.googleapis.com</QueryName>
+            <!--Web resources-->
+            <QueryName condition="end with">.disqus.com</QueryName>
+            <QueryName condition="end with">.fontawesome.com</QueryName>
+            <QueryName condition="is">disqus.com</QueryName>
+            <!--Ads - Extensive list excluded for brevity, keeping same as original-->
+            <QueryName condition="end with">.1rx.io</QueryName>
+            <QueryName condition="end with">.2mdn.net</QueryName>
+            <QueryName condition="end with">.3lift.com</QueryName>
+            <QueryName condition="end with">.adadvisor.net</QueryName>
+            <QueryName condition="end with">.adap.tv</QueryName>
+            <QueryName condition="end with">.addthis.com</QueryName>
+            <QueryName condition="end with">.adform.net</QueryName>
+            <QueryName condition="end with">.adnxs.com</QueryName>
+            <QueryName condition="end with">.adroll.com</QueryName>
+            <QueryName condition="end with">.adrta.com</QueryName>
+            <QueryName condition="end with">.adsafeprotected.com</QueryName>
+            <QueryName condition="end with">.adsrvr.org</QueryName>
+            <QueryName condition="end with">.adsymptotic.com</QueryName>
+            <QueryName condition="end with">.advertising.com</QueryName>
+            <QueryName condition="end with">.agkn.com</QueryName>
+            <QueryName condition="end with">.amazon-adsystem.com</QueryName>
+            <QueryName condition="end with">.analytics.yahoo.com</QueryName>
+            <QueryName condition="end with">.aol.com</QueryName>
+            <QueryName condition="end with">.betrad.com</QueryName>
+            <QueryName condition="end with">.bidswitch.net</QueryName>
+            <QueryName condition="end with">.casalemedia.com</QueryName>
+            <QueryName condition="end with">.chartbeat.net</QueryName>
+            <QueryName condition="end with">.cnn.com</QueryName>
+            <QueryName condition="end with">.convertro.com</QueryName>
+            <QueryName condition="end with">.criteo.com</QueryName>
+            <QueryName condition="end with">.criteo.net</QueryName>
+            <QueryName condition="end with">.crwdcntrl.net</QueryName>
+            <QueryName condition="end with">.demdex.net</QueryName>
+            <QueryName condition="end with">.domdex.com</QueryName>
+            <QueryName condition="end with">.dotomi.com</QueryName>
+            <QueryName condition="end with">.doubleclick.net</QueryName>
+            <QueryName condition="end with">.doubleverify.com</QueryName>
+            <QueryName condition="end with">.emxdgt.com</QueryName>
+            <QueryName condition="end with">.everesttech.net</QueryName>
+            <QueryName condition="end with">.exelator.com</QueryName>
+            <QueryName condition="end with">.google-analytics.com</QueryName>
+            <QueryName condition="end with">.googleadservices.com</QueryName>
+            <QueryName condition="end with">.googlesyndication.com</QueryName>
+            <QueryName condition="end with">.googletagmanager.com</QueryName>
+            <QueryName condition="end with">.googlevideo.com</QueryName>
+            <QueryName condition="end with">.gstatic.com</QueryName>
+            <QueryName condition="end with">.gvt1.com</QueryName>
+            <QueryName condition="end with">.gvt2.com</QueryName>
+            <QueryName condition="end with">.ib-ibi.com</QueryName>
+            <QueryName condition="end with">.jivox.com</QueryName>
+            <QueryName condition="end with">.krxd.net</QueryName>
+            <QueryName condition="end with">.lijit.com</QueryName>
+            <QueryName condition="end with">.mathtag.com</QueryName>
+            <QueryName condition="end with">.moatads.com</QueryName>
+            <QueryName condition="end with">.moatpixel.com</QueryName>
+            <QueryName condition="end with">.mookie1.com</QueryName>
+            <QueryName condition="end with">.myvisualiq.net</QueryName>
+            <QueryName condition="end with">.netmng.com</QueryName>
+            <QueryName condition="end with">.nexac.com</QueryName>
+            <QueryName condition="end with">.openx.net</QueryName>
+            <QueryName condition="end with">.optimizely.com</QueryName>
+            <QueryName condition="end with">.outbrain.com</QueryName>
+            <QueryName condition="end with">.pardot.com</QueryName>
+            <QueryName condition="end with">.phx.gbl</QueryName>
+            <QueryName condition="end with">.pinterest.com</QueryName>
+            <QueryName condition="end with">.pubmatic.com</QueryName>
+            <QueryName condition="end with">.quantcount.com</QueryName>
+            <QueryName condition="end with">.quantserve.com</QueryName>
+            <QueryName condition="end with">.revsci.net</QueryName>
+            <QueryName condition="end with">.rfihub.net</QueryName>
+            <QueryName condition="end with">.rlcdn.com</QueryName>
+            <QueryName condition="end with">.rubiconproject.com</QueryName>
+            <QueryName condition="end with">.scdn.co</QueryName>
+            <QueryName condition="end with">.scorecardresearch.com</QueryName>
+            <QueryName condition="end with">.serving-sys.com</QueryName>
+            <QueryName condition="end with">.sharethrough.com</QueryName>
+            <QueryName condition="end with">.simpli.fi</QueryName>
+            <QueryName condition="end with">.sitescout.com</QueryName>
+            <QueryName condition="end with">.smartadserver.com</QueryName>
+            <QueryName condition="end with">.snapads.com</QueryName>
+            <QueryName condition="end with">.spotxchange.com</QueryName>
+            <QueryName condition="end with">.taboola.com</QueryName>
+            <QueryName condition="end with">.taboola.map.fastly.net</QueryName>
+            <QueryName condition="end with">.tapad.com</QueryName>
+            <QueryName condition="end with">.tidaltv.com</QueryName>
+            <QueryName condition="end with">.trafficmanager.net</QueryName>
+            <QueryName condition="end with">.tremorhub.com</QueryName>
+            <QueryName condition="end with">.tribalfusion.com</QueryName>
+            <QueryName condition="end with">.turn.com</QueryName>
+            <QueryName condition="end with">.twimg.com</QueryName>
+            <QueryName condition="end with">.tynt.com</QueryName>
+            <QueryName condition="end with">.w55c.net</QueryName>
+            <QueryName condition="end with">.ytimg.com</QueryName>
+            <QueryName condition="end with">.zorosrv.com</QueryName>
+            <QueryName condition="is">1rx.io</QueryName>
+            <QueryName condition="is">adservice.google.com</QueryName>
+            <QueryName condition="is">ampcid.google.com</QueryName>
+            <QueryName condition="is">clientservices.googleapis.com</QueryName>
+            <QueryName condition="is">googleadapis.l.google.com</QueryName>
+            <QueryName condition="is">imasdk.googleapis.com</QueryName>
+            <QueryName condition="is">l.google.com</QueryName>
+            <QueryName condition="is">ml314.com</QueryName>
+            <QueryName condition="is">mtalk.google.com</QueryName>
+            <QueryName condition="is">update.googleapis.com</QueryName>
+            <QueryName condition="is">www.googletagservices.com</QueryName>
+            <!--SocialNet-->
+            <QueryName condition="end with">.pscp.tv</QueryName>
+            <!--OSCP/CRL Common-->
+            <QueryName condition="end with">.amazontrust.com</QueryName>
+            <QueryName condition="end with">.digicert.com</QueryName>
+            <QueryName condition="end with">.globalsign.com</QueryName>
+            <QueryName condition="end with">.globalsign.net</QueryName>
+            <QueryName condition="end with">.intel.com</QueryName>
+            <QueryName condition="end with">.symcb.com</QueryName>
+            <QueryName condition="end with">.symcd.com</QueryName>
+            <QueryName condition="end with">.thawte.com</QueryName>
+            <QueryName condition="end with">.usertrust.com</QueryName>
+            <QueryName condition="end with">.verisign.com</QueryName>
+            <QueryName condition="end with">ocsp.identrust.com</QueryName>
+            <QueryName condition="end with">pki.goog</QueryName>
+            <QueryName condition="is">msocsp.com</QueryName>
+            <QueryName condition="is">ocsp.comodoca.com</QueryName>
+            <QueryName condition="is">ocsp.entrust.net</QueryName>
+            <QueryName condition="is">ocsp.godaddy.com</QueryName>
+            <QueryName condition="is">ocsp.int-x3.letsencrypt.org</QueryName>
+            <QueryName condition="is">ocsp.msocsp.com</QueryName>
+            <QueryName condition="end with">pki.goog</QueryName>
+            <QueryName condition="is">ocsp.godaddy.com</QueryName>
+            <QueryName condition="end with">amazontrust.com</QueryName>
+            <QueryName condition="is">ocsp.sectigo.com</QueryName>
+            <QueryName condition="is">pki-goog.l.google.com</QueryName>
+            <QueryName condition="end with">.usertrust.com</QueryName>
+            <QueryName condition="is">ocsp.comodoca.com</QueryName>
+            <QueryName condition="is">ocsp.verisign.com</QueryName>
+            <QueryName condition="is">ocsp.entrust.net</QueryName>
+            <QueryName condition="end with">ocsp.identrust.com</QueryName>
+            <QueryName condition="is">status.rapidssl.com</QueryName>
+            <QueryName condition="is">status.thawte.com</QueryName>
+            <QueryName condition="is">ocsp.int-x3.letsencrypt.org</QueryName>
+        </DnsQuery>
+    </RuleGroup>
 
-	</EventFiltering>
+
+    <!--=======================================================================
+        SYSMON EVENT ID 24 : CLIPBOARD CHANGE [ClipboardChange]
+        DLP MONITORING - CATCH-ALL APPROACH (Exclude noise only)
+        MITRE ATT&CK: T1115 (Clipboard Data)
+    =======================================================================-->
+    <!--COMMENT: CATCH-ALL LOGIC - Monitors ALL clipboard operations EXCEPT system noise.
+                This catches unknown processes, browser sandboxes, new applications.
+                Works with Wazuh rules 100624, 100700-100705 for correlation with AI platforms.
+                Archive saves clipboard content to C:\Sysmon\Archive (SYSTEM access only).
+                
+                IMPORTANT LIMITATION: Sysmon Event 24 detects clipboard CHANGE (copy),
+                NOT paste operations. To detect paste destination, correlate with:
+                - Event 22 (DNS) for domain access
+                - Event 3 (Network) for connections
+                
+                PRIVACY NOTE: CaptureClipboard saves ALL copied content including passwords! -->
+    
+    <!--DATA: UtcTime, ProcessGuid, ProcessId, Image, Session, ClientInfo, Hashes, Archived-->
+    
+    <!--STRATEGY: Exclude only system noise = Catch EVERYTHING else including:
+        - Unknown/new applications
+        - Browser sandbox processes (chrome type=renderer)
+        - Malicious processes
+        - Any process not explicitly excluded -->
+    
+    <RuleGroup name="DLP_Clipboard_CatchAll" groupRelation="or">
+        <ClipboardChange onmatch="exclude">
+            <!--=== WINDOWS SYSTEM PROCESSES (High noise, low value) ===-->
+            <Image condition="image">svchost.exe</Image>
+            <Image condition="image">csrss.exe</Image>
+            <Image condition="image">dwm.exe</Image>
+            <Image condition="image">taskhostw.exe</Image>
+            <Image condition="image">RuntimeBroker.exe</Image>
+            <Image condition="image">SearchHost.exe</Image>
+            <Image condition="image">SearchUI.exe</Image>
+            <Image condition="image">ShellExperienceHost.exe</Image>
+            <Image condition="image">StartMenuExperienceHost.exe</Image>
+            <Image condition="image">TextInputHost.exe</Image>
+            <Image condition="image">ctfmon.exe</Image>
+            <Image condition="image">SystemSettings.exe</Image>
+            <Image condition="image">SecurityHealthSystray.exe</Image>
+            <Image condition="image">PhoneExperienceHost.exe</Image>
+            <Image condition="image">WidgetService.exe</Image>
+            <Image condition="image">Widgets.exe</Image>
+            <Image condition="image">sihost.exe</Image>
+            <Image condition="image">fontdrvhost.exe</Image>
+            <Image condition="image">WmiPrvSE.exe</Image>
+            <Image condition="image">dllhost.exe</Image>
+            <Image condition="image">conhost.exe</Image>
+            <Image condition="image">wininit.exe</Image>
+            <Image condition="image">winlogon.exe</Image>
+            <Image condition="image">lsass.exe</Image>
+            <Image condition="image">services.exe</Image>
+            <Image condition="image">smss.exe</Image>
+            <Image condition="image">spoolsv.exe</Image>
+            <Image condition="image">SearchIndexer.exe</Image>
+            <Image condition="image">SearchProtocolHost.exe</Image>
+            <Image condition="image">SearchFilterHost.exe</Image>
+            <Image condition="image">ApplicationFrameHost.exe</Image>
+            <Image condition="image">backgroundTaskHost.exe</Image>
+            <Image condition="image">CompPkgSrv.exe</Image>
+            <Image condition="image">smartscreen.exe</Image>
+            <Image condition="image">UserOOBEBroker.exe</Image>
+            <Image condition="image">GameBarPresenceWriter.exe</Image>
+            <Image condition="image">Video.UI.exe</Image>
+            <Image condition="image">WindowsInternal.ComposableShell.Experiences.TextInput.InputApp.exe</Image>
+            
+            <!--=== WINDOWS SYSTEM PATHS ===-->
+            <Image condition="begin with">C:\Windows\SystemApps\</Image>
+            <Image condition="begin with">C:\Windows\ImmersiveControlPanel\</Image>
+            <Image condition="begin with">C:\Windows\System32\</Image>
+            <Image condition="begin with">C:\Windows\SysWOW64\</Image>
+            
+            <!--=== SECURITY SOFTWARE (Trust but verify separately) ===-->
+            <Image condition="begin with">C:\ProgramData\Microsoft\Windows Defender\</Image>
+            <Image condition="begin with">C:\Program Files\Windows Defender\</Image>
+            <Image condition="begin with">C:\Program Files\Microsoft Security Client\</Image>
+            <Image condition="begin with">C:\Program Files\CrowdStrike\</Image>
+            <Image condition="begin with">C:\Program Files\SentinelOne\</Image>
+            <Image condition="begin with">C:\Program Files\Carbon Black\</Image>
+            <Image condition="begin with">C:\Program Files\Symantec\</Image>
+            <Image condition="begin with">C:\Program Files\McAfee\</Image>
+            <Image condition="begin with">C:\Program Files\Kaspersky Lab\</Image>
+            <Image condition="begin with">C:\Program Files\ESET\</Image>
+            <Image condition="begin with">C:\Program Files\Sophos\</Image>
+            <Image condition="begin with">C:\Program Files\Trend Micro\</Image>
+            <Image condition="begin with">C:\Program Files\Bitdefender\</Image>
+            <Image condition="begin with">C:\Program Files\Malwarebytes\</Image>
+            
+            <!--=== OPTIONAL: Password Managers (Uncomment if too noisy) ===-->
+            <!--WARNING: Excluding these means you won't see password copies!-->
+            <!--<Image condition="image">KeePass.exe</Image>-->
+            <!--<Image condition="image">KeePassXC.exe</Image>-->
+            <!--<Image condition="image">1Password.exe</Image>-->
+            <!--<Image condition="image">LastPass.exe</Image>-->
+            <!--<Image condition="image">Bitwarden.exe</Image>-->
+            <!--<Image condition="image">Dashlane.exe</Image>-->
+            <!--<Image condition="image">RoboForm.exe</Image>-->
+        </ClipboardChange>
+    </RuleGroup>
+
+    </EventFiltering>
 </Sysmon>
+
