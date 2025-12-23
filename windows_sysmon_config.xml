@@ -283,18 +283,28 @@
             <!-- ========== PERSISTENCE LOCATIONS ========== -->
             <TargetFilename name="T1023" condition="contains">\Start Menu</TargetFilename>
             <TargetFilename name="T1165" condition="contains">\Startup\</TargetFilename>
+                        <!-- ========== PERSISTENCE LOCATIONS ========== 
+
             <TargetFilename name="DefaultUserModified" condition="begin with">C:\Users\Default</TargetFilename>
+            -->
             <!-- ========== DOWNLOAD/ATTACHMENT LOCATIONS ========== -->
             <TargetFilename name="OutlookAttachment" condition="contains">\Content.Outlook\</TargetFilename>
             <TargetFilename name="Downloads" condition="contains">\Downloads\</TargetFilename>
             <TargetFilename name="Desktop" condition="contains">\Desktop\</TargetFilename>
+            <!-- ========== DOWNLOAD/ATTACHMENT LOCATIONS ========== 
+
             <TargetFilename name="Temp" condition="contains">\AppData\Local\Temp\</TargetFilename>
+            -->
             <!-- ========== DANGEROUS EXTENSIONS ========== -->
             <TargetFilename name="EXE" condition="end with">.exe</TargetFilename>
+                        <!-- ========== DANGEROUS EXTENSIONS ========== 
+
             <TargetFilename name="DLL" condition="end with">.dll</TargetFilename>
+          
             <TargetFilename condition="end with">.sys</TargetFilename>
             <TargetFilename condition="end with">.scr</TargetFilename>
             <TargetFilename condition="end with">.ocx</TargetFilename>
+            -->
             <TargetFilename condition="end with">.jar</TargetFilename>
             <TargetFilename condition="end with">.jnlp</TargetFilename>
             <!-- Scripts -->
@@ -333,25 +343,31 @@
             <!-- Shortcuts/Links -->
             <TargetFilename condition="end with">.lnk</TargetFilename>
             <TargetFilename condition="end with">.url</TargetFilename>
-            <!-- ClickOnce -->
+            <!-- ClickOnce 
             <TargetFilename condition="end with">.application</TargetFilename>
             <TargetFilename condition="end with">.appref-ms</TargetFilename>
-            <!-- MSBuild -->
+            -->
+            <!-- MSBuild 
             <TargetFilename condition="end with">.csproj</TargetFilename>
             <TargetFilename condition="end with">.vbproj</TargetFilename>
             <TargetFilename condition="end with">.sln</TargetFilename>
             <TargetFilename condition="end with">.cmdline</TargetFilename>
-            <!-- Browser Extensions -->
+            -->
+            <!-- Browser Extensions
             <TargetFilename name="T1176" condition="end with">.crx</TargetFilename>
             <TargetFilename condition="end with">.xpi</TargetFilename>
-            <!-- Other -->
+             -->
+            <!-- Other 
             <TargetFilename condition="end with">.chm</TargetFilename>
             <TargetFilename condition="end with">.job</TargetFilename>
             <TargetFilename condition="end with">.dmp</TargetFilename>
-            <TargetFilename condition="end with">.exe.log</TargetFilename>
-            <TargetFilename condition="end with">.msi</TargetFilename>
             <TargetFilename condition="end with">.msp</TargetFilename>
             <TargetFilename condition="end with">.cab</TargetFilename>
+            -->
+
+            <TargetFilename condition="end with">.msi</TargetFilename>
+
+   
             <!-- ========== CRITICAL SYSTEM LOCATIONS ========== -->
             <TargetFilename condition="begin with">C:\Windows\system32\Drivers</TargetFilename>
             <TargetFilename condition="begin with">C:\Windows\SysWOW64\Drivers</TargetFilename>
@@ -794,4 +810,8 @@
 
     </EventFiltering>
 </Sysmon>
+
+
+
+
 
