@@ -1,0 +1,450 @@
+<!-- Local rules -->
+
+<!-- Modify it at your will. -->
+<!-- Copyright (C) 2015, Wazuh Inc. -->
+
+<!-- Example -->
+<group name="local,syslog,sshd,">
+
+  <!--
+  Dec 10 01:02:02 host sshd[1234]: Failed none for root from 1.1.1.1 port 1066 ssh2
+  -->
+  <rule id="100001" level="5">
+    <if_sid>5716</if_sid>
+    <srcip>1.1.1.1</srcip>
+    <description>sshd: authentication failed from IP 1.1.1.1.</description>
+    <group>authentication_failed,pci_dss_10.2.4,pci_dss_10.2.5,</group>
+  </rule>
+
+</group>
+<group name="windows, windows_security">
+  <rule id="100002" level="0">
+    <if_sid>60104</if_sid>
+    <field name="win.eventdata.param1">SophosAmsiProvider.dll</field>
+    <description>Ignore Sophos AMSI Provider hash event</description>
+  </rule>
+</group>
+
+<!-- firewall -->
+
+
+<group name="fortigate,syslog,">
+
+ 
+  <rule id="81603" level="3" overwrite="yes">
+    <if_sid>81600,81601,81602,81641</if_sid>
+    <description>Fortigate Firewall Logs.</description>
+  </rule>
+ 
+  
+  <rule id="81633" level="4" overwrite="yes">
+    <if_sid>81603</if_sid>
+    <match>subtype="app-ctrl"|subtype=app-ctrl</match>
+    <action>pass</action>
+    <description>Fortigate: App passed by firewall.</description>
+    <group>gdpr_IV_35.7.d,hipaa_164.312.b,nist_800_53_AU.6,pci_dss_10.6.1,</group>
+  </rule>
+
+  </group>
+  <!-- Sysmon -->
+<!-- 
+  Wazuh Sysmon Rules for High Value Events
+  Events: 1, 3, 7, 8, 10, 11, 13, 17, 22, 25, 26
+  Place in: /var/ossec/etc/rules/sysmon_rules.xml
+-->
+
+<!-- ================================================== -->
+<!-- SYSMON STANDALONE RULES - CODESECURE SOLUTIONS     -->
+<!-- No dependency on 0595-win-sysmon_rules.xml         -->
+<!-- ================================================== -->
+<group name="windows,sysmon,">
+  <!-- ============================================= -->
+  <!-- BASE RULE - Parent for all Sysmon events     -->
+  <!-- ============================================= -->
+  <rule id="100600" level="0">
+    <if_sid>60004</if_sid>
+    <field name="win.system.severityValue">^INFORMATION$</field>
+    <description>Windows Sysmon informational event</description>
+    <options>no_full_log</options>
+  </rule>
+  
+  
+  <!-- ============================================= -->
+  <!-- SYSMON EVENT RULES                           -->
+  <!-- ============================================= -->
+  <rule id="100601" level="3">
+    <if_sid>100600</if_sid>
+    <field name="win.system.eventID">^1$</field>
+    <description>Sysmon Event 1: Process Create - $(win.eventdata.image)</description>
+    <options>no_full_log</options>
+    <group>sysmon_event1,</group>
+  </rule>
+  
+  <rule id="100603" level="3">
+    <if_sid>100600</if_sid>
+    <field name="win.system.eventID">^3$</field>
+    <description>Sysmon Event 3: Network Connect - $(win.eventdata.image) to $(win.eventdata.destinationHostname)</description>
+    <options>no_full_log</options>
+    <group>sysmon_event3,</group>
+  </rule>
+  
+  <rule id="100611" level="3">
+    <if_sid>100600</if_sid>
+    <field name="win.system.eventID">^11$</field>
+    <description>Sysmon Event 11: File Create - $(win.eventdata.targetFilename)</description>
+    <options>no_full_log</options>
+    <group>sysmon_event11,</group>
+  </rule>
+    <!-- Sysmon 
+  <rule id="100617" level="4">
+    <if_sid>100600</if_sid>
+    <field name="win.system.eventID">^17$</field>
+    <description>Sysmon Event 17: Pipe Created - $(win.eventdata.pipeName)</description>
+    <options>no_full_log</options>
+    <group>sysmon_event17,</group>
+  </rule> -->
+  
+  <rule id="100622" level="3">
+    <if_sid>100600</if_sid>
+    <field name="win.system.eventID">^22$</field>
+    <description>Sysmon Event 22: DNS Query - $(win.eventdata.queryName)</description>
+    <options>no_full_log</options>
+    <group>sysmon_event22,</group>
+  </rule>
+
+  <!-- Event ID 24 - Clipboard Change -->
+  <rule id="100624" level="3">
+    <if_sid>100600</if_sid>
+    <field name="win.system.eventID">^24$</field>
+    <description>Sysmon Event 24: Clipboard Changed - $(win.eventdata.image)</description>
+    <options>no_full_log</options>
+    <group>sysmon_event24,clipboard,dlp_activity</group>
+  </rule>
+ <!-- Sysmon 
+  <rule id="100626" level="3">
+    <if_sid>100600</if_sid>
+    <field name="win.system.eventID">^26$</field>
+    <description>Sysmon Event 26: File Delete - $(win.eventdata.targetFilename)</description>
+    <options>no_full_log</options>
+    <group>sysmon_event26,</group>
+    <mitre>
+      <id>T1070.004</id>
+    </mitre>
+  </rule>
+ -->  
+
+ 
+
+  <!-- ============================================= -->
+  <!-- NETWORK DLP RULES (Event ID 3)               -->
+  <!-- Connection to risky sites                    -->
+  <!-- ============================================= -->
+
+<!-- AI Platforms - All (Browser) - Single Rule -->
+<rule id="100710" level="8">
+  <if_sid>100622</if_sid>
+  <field name="win.eventdata.queryName" type="pcre2">(?i)(openai\.com|chatgpt\.com|chat\.openai\.com|claude\.ai|anthropic\.com|gemini\.google\.com|bard\.google\.com|copilot\.microsoft\.com|perplexity\.ai|deepseek\.com|poe\.com|you\.com|huggingface\.co|replicate\.com|mistral\.ai|groq\.com)</field>
+  <description>DLP: Browser connection to AI platform - $(win.eventdata.queryName)</description>
+  <options>no_full_log</options>
+  <group>dlp,ai_platform,browser,dlp_activity,</group>
+  <mitre>
+    <id>T1567</id>
+  </mitre>
+</rule>
+
+  <!-- Paste Sites (HIGH RISK) -->
+  <rule id="100711" level="12">
+    <if_sid>100622</if_sid>
+    <field name="win.eventdata.queryName" type="pcre2">(?i)(pastebin\.com|paste\.ee|hastebin\.com|justpaste\.it|controlc\.com|dpaste\.com)</field>
+    <description>DLP ALERT: Connection to paste site - $(win.eventdata.queryName)</description>
+    <options>no_full_log</options>
+    <group>dlp,paste_site,high_risk,</group>
+    <mitre>
+      <id>T1567</id>
+      <id>T1048</id>
+    </mitre>
+  </rule>
+
+  <!-- Code Repositories -->
+  <rule id="100712" level="8">
+    <if_sid>100622</if_sid>
+    <field name="win.eventdata.queryName" type="pcre2">(?i)(github\.com|gitlab\.com|bitbucket\.org|gist\.github\.com)</field>
+    <description>DLP: Connection to code repository - $(win.eventdata.queryName)</description>
+    <options>no_full_log</options>
+    <group>dlp,code_repo,</group>
+    <mitre>
+      <id>T1567.002</id>
+    </mitre>
+  </rule>
+<!-- Cloud Storage & File Transfer Services - All -->
+<rule id="100713" level="10">
+  <if_sid>100622</if_sid>
+  <field name="win.eventdata.queryName" type="pcre2">(?i)(dropbox\.com|drive\.google\.com|onedrive\.live\.com|box\.com|icloud\.com|mega\.nz|mega\.co\.nz|userstorage\.mega|wetransfer\.com|sendspace\.com|mediafire\.com|file\.io|transfer\.sh|gofile\.io|anonfiles\.com|zippyshare\.com|rapidshare\.com|4shared\.com|uploaded\.net)</field>
+  <description>DLP: Connection to cloud file transfer service - $(win.eventdata.queryName)</description>
+  <options>no_full_log</options>
+  <group>dlp,cloud_storage,file_transfer,dlp_activity,</group>
+  <mitre>
+    <id>T1567.002</id>
+  </mitre>
+</rule>
+
+  <!-- Collaboration Tools -->
+  <rule id="100714" level="6">
+    <if_sid>100622</if_sid>
+    <field name="win.eventdata.queryName" type="pcre2">(?i)(teams\.microsoft\.com|slack\.com|discord\.com|telegram\.org)</field>
+    <description>DLP: Connection to collaboration platform - $(win.eventdata.queryName)</description>
+    <options>no_full_log</options>
+    <group>dlp,collaboration,</group>
+  </rule>
+
+  <!-- Personal Email -->
+  <rule id="100715" level="8">
+    <if_sid>100622</if_sid>
+    <field name="win.eventdata.queryName" type="pcre2">(?i)(mail\.google\.com|outlook\.live\.com|mail\.yahoo\.com|protonmail\.com|gmail\.com|zoho\.in|mail\.zoho\.in)</field>
+    <description>DLP: Connection to personal email - $(win.eventdata.queryName)</description>
+    <options>no_full_log</options>
+    <group>dlp,personal_email,</group>
+    <mitre>
+      <id>T1048.003</id>
+    </mitre>
+  </rule>
+
+  <!-- copy Paste + ai sites co-relation rules  -->
+  
+<rule id="100720" level="12" timeframe="180">
+  <if_matched_sid>100710</if_matched_sid>
+     <if_sid>100624</if_sid>
+   <same_field>win.system.computer</same_field>
+  <description>DLP: Clipboard + Browser connection to AI Platform</description>
+  <options>no_full_log</options>
+  <group>dlp,ai_platform,browser,dlp_activity,</group>
+  <mitre>
+    <id>T1567</id>
+  </mitre>
+</rule>
+<rule id="100721" level="12" timeframe="180">
+  <if_matched_sid>100711</if_matched_sid>
+     <if_sid>100624</if_sid>
+   <same_field>win.system.computer</same_field>
+  <description>DLP: Clipboard + Browser connection to Pastebin Platform</description>
+  <options>no_full_log</options>
+  <group>dlp,ai_platform,browser,dlp_activity,</group>
+  <mitre>
+    <id>T1567</id>
+  </mitre>
+</rule>
+
+<rule id="100722" level="12" timeframe="180">
+  <if_matched_sid>100712</if_matched_sid>
+     <if_sid>100624</if_sid>
+   <same_field>win.system.computer</same_field>
+  <description>DLP: Clipboard + Browser connection to Code Repository Platform</description>
+  <options>no_full_log</options>
+  <group>dlp,ai_platform,browser,dlp_activity,</group>
+  <mitre>
+    <id>T1567</id>
+  </mitre>
+</rule>
+<rule id="100723" level="12" timeframe="180">
+  <if_matched_sid>100713</if_matched_sid>
+     <if_sid>100624</if_sid>
+   <same_field>win.system.computer</same_field>
+  <description>DLP: Clipboard + Browser connection to Cloud Storage Platform</description>
+  <options>no_full_log</options>
+  <group>dlp,ai_platform,browser,dlp_activity,</group>
+  <mitre>
+    <id>T1567</id>
+  </mitre>
+</rule>
+
+<rule id="100724" level="12" timeframe="180">
+  <if_matched_sid>100714</if_matched_sid>
+     <if_sid>100624</if_sid>
+   <same_field>win.system.computer</same_field>
+  <description>DLP: Clipboard + Browser connection to Teams Collabration Platform</description>
+  <options>no_full_log</options>
+  <group>dlp,ai_platform,browser,dlp_activity,</group>
+  <mitre>
+    <id>T1567</id>
+  </mitre>
+</rule>
+<rule id="100725" level="12" timeframe="180">
+  <if_matched_sid>100715</if_matched_sid>
+     <if_sid>100624</if_sid>
+   <same_field>win.system.computer</same_field>
+  <description>DLP: Clipboard + Browser connection to Personal Email Platform</description>
+  <options>no_full_log</options>
+  <group>dlp,ai_platform,browser,dlp_activity,</group>
+  <mitre>
+    <id>T1567</id>
+  </mitre>
+</rule>
+  <!-- ============================================ -->
+  <!-- EXFILTRATION TOOLS DETECTION                 -->
+  <!-- ============================================= -->
+
+
+  <!-- MEGAsync -->
+  <rule id="100732" level="12">
+    <if_sid>100601</if_sid>
+    <field name="win.eventdata.originalFileName" type="pcre2">(?i)megasync\.exe</field>
+    <description>DLP ALERT: MEGAsync detected - ransomware exfil tool</description>
+    <options>no_full_log</options>
+    <group>dlp,exfil_tool,megasync,</group>
+    <mitre>
+      <id>T1567.002</id>
+    </mitre>
+  </rule>
+
+  <!-- Git Push External -->
+  <rule id="100735" level="10">
+    <if_sid>100601</if_sid>
+    <field name="win.eventdata.image" type="pcre2">(?i)git\.exe</field>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)(push|remote\s+add)</field>
+    <description>DLP: Git push detected - possible code exfiltration</description>
+    <options>no_full_log</options>
+    <group>dlp,git,code_exfil,</group>
+    <mitre>
+      <id>T1567.002</id>
+    </mitre>
+  </rule>
+
+  <!-- LOTL Tools - Bitsadmin -->
+  <rule id="100740" level="10">
+    <if_sid>100601</if_sid>
+    <field name="win.eventdata.originalFileName" type="pcre2">(?i)bitsadmin\.exe</field>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)(transfer|addfile|upload|http)</field>
+    <description>DLP: Bitsadmin file transfer detected</description>
+    <options>no_full_log</options>
+    <group>dlp,lotl,bitsadmin,</group>
+    <mitre>
+      <id>T1197</id>
+      <id>T1567.002</id>
+    </mitre>
+  </rule>
+
+  <!-- LOTL Tools - Curl Upload -->
+  <rule id="100741" level="10">
+    <if_sid>100601</if_sid>
+    <field name="win.eventdata.originalFileName" type="pcre2">(?i)curl\.exe</field>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)(-T|--upload-file|POST|--data)</field>
+    <description>DLP: Curl data upload detected</description>
+    <options>no_full_log</options>
+    <group>dlp,lotl,curl,</group>
+    <mitre>
+      <id>T1567.002</id>
+    </mitre>
+  </rule>
+
+  <!-- LOTL Tools - Certreq -->
+  <rule id="100742" level="10">
+    <if_sid>100601</if_sid>
+    <field name="win.eventdata.originalFileName" type="pcre2">(?i)certreq\.exe</field>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)(-post|-config|http)</field>
+    <description>DLP: Certreq data exfiltration detected</description>
+    <options>no_full_log</options>
+    <group>dlp,lotl,certreq,</group>
+    <mitre>
+      <id>T1567.002</id>
+    </mitre>
+  </rule>
+
+
+  <!-- ============================================= -->
+  <!-- TOOL EXCLUSIONS                              -->
+  <!-- ============================================= -->
+
+  <rule id="100800" level="0">
+    <if_group>sysmon</if_group>
+    <field name="win.eventdata.image" type="pcre2">(?i)\\(Sophos|FortiClient|ossec-agent|grafana|iVMS-4200|Elastic|Splunk)\\</field>
+    <description>Security tools excluded - image</description>
+  </rule>
+
+  <rule id="100801" level="0">
+    <if_group>sysmon</if_group>
+    <field name="win.eventdata.sourceImage" type="pcre2">(?i)\\(Sophos|FortiClient|ossec-agent|grafana|iVMS-4200|Elastic|Splunk)\\</field>
+    <description>Security tools excluded - sourceImage</description>
+  </rule>
+
+  <rule id="100802" level="0">
+    <if_group>sysmon</if_group>
+    <field name="win.eventdata.targetImage" type="pcre2">(?i)\\(Sophos|FortiClient|ossec-agent|grafana|iVMS-4200|Elastic|Splunk)\\</field>
+    <description>Security tools excluded - targetImage</description>
+  </rule>
+
+  
+
+</group>
+ <!-- ============================================= -->
+  <!-- O365 Rules                               -->
+  <!-- ============================================= -->
+
+<group name="office365,">
+    <rule id="100901" level="3">
+        <if_sid>91545</if_sid>
+        <field name="office365.Operation">UserLoginFailed</field>
+        <description>Office 365: Login Failed in Azure Active Directory.</description>
+        <options>no_full_log</options>
+        <group>AzureActiveDirectoryStsLogon,authentication_failed,hipaa_164.312.a.2.I,hipaa_164.312.b,hipaa_164.312.d,hipaa_164.312.e.2.II,pci_dss_8.3,pci_dss_10.6.1</group>
+    </rule>
+    
+</group>
+
+ <!-- ============================================= -->
+  <!-- O365 Rules                               -->
+  <!-- ============================================= -->
+<group name="windows, windows_security,">
+    <rule id="100902" level="2">
+     <if_sid>60103</if_sid>
+     <field name="win.system.eventID">^4663$</field>
+     <description>File Access detected in Windows shared folder</description>     
+     <options>no_full_log</options>
+  </rule>
+  <rule id="100903" level="10">
+  <if_sid>100902</if_sid>
+  <field name="win.eventdata.processName" type="pcre2">(?i)(chrome\.exe|msedge\.exe|firefox\.exe|claude\.exe|brave\.exe)</field>
+  <field name="win.eventdata.accessMask" type="pcre2">0x1</field>
+  <description>DLP: Browser read file (possible upload) - $(win.eventdata.objectName)</description>
+  <group>dlp,file_read,upload,browser,</group>
+  <mitre>
+    <id>T1567</id>
+  </mitre>
+</rule>
+
+  </group>
+  
+<group name="sysmon,dlp,">
+
+  <!-- Base: .lnk created in Recent folder -->
+  <rule id="100905" level="3">
+    <if_sid>100611</if_sid>
+    <field name="win.eventdata.targetFilename" type="pcre2">(?i)\\Recent\\.*\.lnk$</field>
+    <description>DLP: File activity in Recent folder: $(win.eventdata.targetFilename)</description>
+    <group>dlp,sysmon_event11,</group>
+  </rule>
+
+  <!-- DOWNLOAD: Recent + ruleName = Downloads -->
+  <rule id="100906" level="8">
+    <if_sid>100905</if_sid>
+    <field name="win.eventdata.ruleName" type="pcre2">(?i)Downloads</field>
+    <description>DLP: File download (Recent): $(win.eventdata.targetFilename)</description>
+    <group>dlp,download,sysmon_event11,</group>
+  </rule>
+
+  <!-- UPLOAD/ACCESS: message contains RuleName: - -->
+  <rule id="100907" level="8">
+    <if_sid>100905</if_sid>
+    <field name="win.system.message" type="pcre2">RuleName: -</field>
+    <description>DLP: File upload access: $(win.eventdata.targetFilename)</description>
+    <group>dlp,upload,sysmon_event11,</group>
+  </rule>
+
+  <!-- DOWNLOAD: File created directly in Downloads folder -->
+  <rule id="100908" level="8">
+    <if_sid>100611</if_sid>
+    <field name="win.eventdata.targetFilename" type="pcre2">(?i)\\Downloads\\</field>
+    <description>DLP: File download: $(win.eventdata.targetFilename)</description>
+    <group>dlp,download,sysmon_event11,</group>
+  </rule>
+
+</group> 
