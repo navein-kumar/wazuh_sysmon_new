@@ -808,9 +808,44 @@
         </ClipboardChange>
     </RuleGroup>
 
+    <!--SYSMON EVENT ID 15 : FILE CREATE STREAM HASH [FileCreateStreamHash]-->
+<RuleGroup name="ChromeDownloads" groupRelation="or">
+    <FileCreateStreamHash onmatch="include">
+        <!-- Track downloads in user folders -->
+        <TargetFilename condition="contains">\Downloads\</TargetFilename>
+        <TargetFilename condition="contains">\Desktop\</TargetFilename>
+        <TargetFilename condition="contains">\Content.Outlook\</TargetFilename>
+    </FileCreateStreamHash>
+</RuleGroup>
+
+<RuleGroup name="" groupRelation="or">
+    <FileCreateStreamHash onmatch="exclude">
+        <!-- Reduce noise - exclude non-dangerous file types Zone.Identifier -->
+        <TargetFilename condition="end with">.jpg:Zone.Identifier</TargetFilename>
+        <TargetFilename condition="end with">.png:Zone.Identifier</TargetFilename>
+        <TargetFilename condition="end with">.gif:Zone.Identifier</TargetFilename>
+        <TargetFilename condition="end with">.pdf:Zone.Identifier</TargetFilename>
+        <TargetFilename condition="end with">.txt:Zone.Identifier</TargetFilename>
+    </FileCreateStreamHash>
+</RuleGroup>
+
+<RuleGroup name="" groupRelation="or">
+    <ProcessTerminate onmatch="include">
+        <!-- Empty include = log nothing -->
+    </ProcessTerminate>
+</RuleGroup>
+
+<RuleGroup name="" groupRelation="or">
+    <DriverLoad onmatch="include">
+        <!-- Empty include = log nothing -->
+    </DriverLoad>
+</RuleGroup>
+<PipeEvent onmatch="include">
+</PipeEvent>
+<RegistryEvent onmatch="include"></RegistryEvent>
+
     </EventFiltering>
 </Sysmon>
-
 
 
 
