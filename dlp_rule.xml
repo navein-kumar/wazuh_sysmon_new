@@ -447,4 +447,84 @@
     <group>dlp,download,sysmon_event11,</group>
   </rule>
 
+</group>
+
+<!-- ============================================= -->
+<!-- SYSMON EVENT 15: FileCreateStreamHash         -->
+<!-- Chrome download detection via Zone.Identifier -->
+<!-- ============================================= -->
+<group name="sysmon,dlp,">
+
+  <!-- Base rule for Event ID 15 -->
+  <rule id="100615" level="3">
+    <if_sid>100600</if_sid>
+    <field name="win.system.eventID">^15$</field>
+    <description>Sysmon Event 15: FileCreateStreamHash - $(win.eventdata.targetFilename)</description>
+    <options>no_full_log</options>
+    <group>sysmon_event15,</group>
+  </rule>
+
+  <!-- Chrome download detected via Zone.Identifier ADS -->
+  <rule id="100910" level="8">
+    <if_sid>100615</if_sid>
+    <field name="win.eventdata.image" type="pcre2">(?i)chrome\.exe</field>
+    <field name="win.eventdata.targetFilename" type="pcre2">(?i)Zone\.Identifier</field>
+    <description>DLP: Chrome file download detected - $(win.eventdata.targetFilename)</description>
+    <options>no_full_log</options>
+    <group>dlp,download,chrome,sysmon_event15,</group>
+    <mitre>
+      <id>T1105</id>
+    </mitre>
+  </rule>
+
+  <!-- Brave download detected via Zone.Identifier ADS (Chromium-based) -->
+  <rule id="100911" level="8">
+    <if_sid>100615</if_sid>
+    <field name="win.eventdata.image" type="pcre2">(?i)brave\.exe</field>
+    <field name="win.eventdata.targetFilename" type="pcre2">(?i)Zone\.Identifier</field>
+    <description>DLP: Brave file download detected - $(win.eventdata.targetFilename)</description>
+    <options>no_full_log</options>
+    <group>dlp,download,brave,sysmon_event15,</group>
+    <mitre>
+      <id>T1105</id>
+    </mitre>
+  </rule>
+
+  <!-- Any browser download to Downloads folder via Event 15 -->
+  <rule id="100912" level="8">
+    <if_sid>100615</if_sid>
+    <field name="win.eventdata.targetFilename" type="pcre2">(?i)\\Downloads\\.*Zone\.Identifier</field>
+    <description>DLP: File downloaded to Downloads folder - $(win.eventdata.targetFilename)</description>
+    <options>no_full_log</options>
+    <group>dlp,download,sysmon_event15,</group>
+    <mitre>
+      <id>T1105</id>
+    </mitre>
+  </rule>
+
+  <!-- Download of high-risk file types via Event 15 -->
+  <rule id="100913" level="12">
+    <if_sid>100615</if_sid>
+    <field name="win.eventdata.targetFilename" type="pcre2">(?i)\.(exe|msi|bat|cmd|ps1|vbs|js|hta|scr|dll|zip|rar|7z|iso):Zone\.Identifier</field>
+    <description>DLP ALERT: High-risk file type downloaded - $(win.eventdata.targetFilename)</description>
+    <options>no_full_log</options>
+    <group>dlp,download,high_risk,sysmon_event15,</group>
+    <mitre>
+      <id>T1105</id>
+      <id>T1204.002</id>
+    </mitre>
+  </rule>
+
+  <!-- Download to Desktop via Event 15 -->
+  <rule id="100914" level="8">
+    <if_sid>100615</if_sid>
+    <field name="win.eventdata.targetFilename" type="pcre2">(?i)\\Desktop\\.*Zone\.Identifier</field>
+    <description>DLP: File downloaded to Desktop - $(win.eventdata.targetFilename)</description>
+    <options>no_full_log</options>
+    <group>dlp,download,sysmon_event15,</group>
+    <mitre>
+      <id>T1105</id>
+    </mitre>
+  </rule>
+
 </group> 
