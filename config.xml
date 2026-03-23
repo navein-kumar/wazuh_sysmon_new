@@ -3,9 +3,9 @@
     <HashAlgorithms>md5,sha256,IMPHASH</HashAlgorithms>
     <CheckRevocation/>
     
-    <!--DLP: CLIPBOARD MONITORING - Added for DLP detection-->
-    <CaptureClipboard/>
-    <ArchiveDirectory>C:\Sysmon\Archive</ArchiveDirectory>
+    <!--DLP: CLIPBOARD MONITORING - Event ID 24 logs file names without archiving content-->
+    <!--CaptureClipboard and ArchiveDirectory REMOVED to prevent disk bloat (was 60GB+)-->
+    <!--File names are still captured in Event ID 24 ClipboardChange logs-->
 
     <EventFiltering>
 
@@ -715,14 +715,12 @@
     <!--COMMENT: CATCH-ALL LOGIC - Monitors ALL clipboard operations EXCEPT system noise.
                 This catches unknown processes, browser sandboxes, new applications.
                 Works with Wazuh rules 100624, 100700-100705 for correlation with AI platforms.
-                Archive saves clipboard content to C:\Sysmon\Archive (SYSTEM access only).
-                
+                CaptureClipboard REMOVED - file names still logged via Event ID 24.
+
                 IMPORTANT LIMITATION: Sysmon Event 24 detects clipboard CHANGE (copy),
                 NOT paste operations. To detect paste destination, correlate with:
                 - Event 22 (DNS) for domain access
-                - Event 3 (Network) for connections
-                
-                PRIVACY NOTE: CaptureClipboard saves ALL copied content including passwords! -->
+                - Event 3 (Network) for connections -->
     
     <!--DATA: UtcTime, ProcessGuid, ProcessId, Image, Session, ClientInfo, Hashes, Archived-->
     
